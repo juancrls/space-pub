@@ -148,9 +148,9 @@ const colorChanger = () => {
   isRunning = true;
 
   leftLight.style = ` background: 
-  linear-gradient(13deg, transparent 64.25%, white 60.5%), 
-  linear-gradient(14deg, transparent 63.3%, white 0%),
-  linear-gradient(-5deg, transparent 32% , rgb(${colors[b][0][0]}, ${colors[b][0][1]}, ${colors[b][0][2]}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));`
+  linear-gradient(70deg, transparent 41.75%, white 34.5%), 
+  linear-gradient(15deg, transparent 63.5%, white 5%),
+  linear-gradient(360deg, transparent 32% , rgb(${colors[b][0][0]}, ${colors[b][0][1]}, ${colors[b][0][2]}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));`
 
   rightLight.style = ` background: 
   linear-gradient(-53.1deg, transparent 60%, white 20.5%), 
