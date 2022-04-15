@@ -153,10 +153,17 @@ const draw = () => {
   requestAnimationFrame(draw);
   
   let dataArray = analyser.getValue();
-  let sum = dataArray.reduce((a, b) => a + b + 120, 0);
+  let sum = dataArray.reduce((a, b) => a + b + 118, 0);
   let avg = (sum / dataArray.length) || 0;
 
-  if (Math.max(...dataArray) + 100 > avg) {
+  
+  let d = (player.detune / 100) * 7; // percentage needed to increase avg calc
+  let max = Math.max(...dataArray) + 100
+  if(player.detune > 0) {
+    max += (max/100) * d
+  }
+
+  if (max > (avg * 2)) {
     if(!isRunning) colorChanger();
   }
 }
@@ -170,7 +177,9 @@ const changeWithTime = () => {
     setTimeout(function() {  
       b = 0; // resolve o bug dele botar uma cor ao mexer no input com o disable, mas fixa na cor vermelha
       if(rAFIsPaused || !dynamicLights) return; // talvez nem precise desse if
-      b = Math.floor(Math.random() * 5);
+      let nextB = b
+      while(nextB == b) nextB = Math.floor(Math.random() * 5); // to avoid the same color twice
+      b = nextB
       if (!rAFIsPaused) delay();
     }, 100)
   }
@@ -183,7 +192,7 @@ const colorChanger = () => {
   changeLightsWithPitch();
 
   function delay() {  
-    setTimeout(() => isRunning = false, 400);
+    setTimeout(() => isRunning = false, 400 / player.playbackRate);
   }
   delay();
 }
