@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+.full-viewport {
+  width: 100vw;
+  height: 100vh;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.remove-white-background {
+  mix-blend-mode: darken;
+}
+
+#svg-left-light {
+  
+}
