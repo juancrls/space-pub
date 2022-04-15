@@ -9,6 +9,27 @@ let player = new Tone.GrainPlayer({
   "playbackRate": document.querySelector('#playback-rate-output').value,
 }).toDestination()
 
+let detuneColor = 0;
+
+let dynamicLights = true;
+let dynamicLightsButton = document.querySelector('#dynamicLights');
+
+dynamicLightsButton.addEventListener('click', () => {
+  if(dynamicLights) {
+    dynamicLightsButton.innerHTML = "Enable dynamic lights"
+    dynamicLights = false;
+    rAFIsPaused = true;
+  } else {
+    console.log('test')
+    dynamicLightsButton.innerHTML = "Disable dynamic lights"
+    
+    dynamicLights = true;
+    rAFIsPaused = false;
+    changeWithTime()
+    
+    draw();
+  }
+})
 
 let rAFIsPaused = true;
 
@@ -50,7 +71,9 @@ document.querySelector('#playback-rate-input').addEventListener('input', (e) => 
   document.querySelector('#playback-rate-output').value = playbackRateValue; // modifies the number aside the input bar;
 
   if(dynamicPitchCheckbox.checked) {
-    player.detune = activateDynamicPitch();
+    player.detune = Math.floor(activateDynamicPitch());
+    detuneColor = player.detune / -20;
+    changeLightsWithPitch()
   }
 
   player.playbackRate = playbackRateValue;
@@ -63,13 +86,19 @@ document.querySelector('#pitch-input').addEventListener('input', (e) => {
 
   inputDetuneValue = val * 100;
   player.detune = inputDetuneValue;
+  detuneColor = player.detune / -20;
+  changeLightsWithPitch()
+  
 }, false)
 
 // CHECKBOX
 let dynamicPitchCheckbox = document.getElementById('dynamicPitch');
 dynamicPitchCheckbox.addEventListener('click', () => {
+  detuneColor = player.detune / -20;
+  changeLightsWithPitch()
+
   if(dynamicPitchCheckbox.checked) {
-    player.detune = activateDynamicPitch(); // makes detune value relative to playback rate
+    player.detune = Math.floor(activateDynamicPitch()); // makes detune value relative to playback rat) e
     document.querySelector('#pitch-adjust-div').style.display = 'none'
   } else {
     player.detune = inputDetuneValue;
@@ -120,7 +149,7 @@ const colors = [
 ]
 
 const draw = () => {
-  if(rAFIsPaused) return;
+  if(rAFIsPaused || !dynamicLights) return;
   requestAnimationFrame(draw);
   
   let dataArray = analyser.getValue();
@@ -132,9 +161,15 @@ const draw = () => {
   }
 }
 
+
+let isRunning = false;
+let b = 0;
+
 const changeWithTime = () => {
   function delay() {  
     setTimeout(function() {  
+      b = 0; // resolve o bug dele botar uma cor ao mexer no input com o disable, mas fixa na cor vermelha
+      if(rAFIsPaused || !dynamicLights) return; // talvez nem precise desse if
       b = Math.floor(Math.random() * 5);
       if (!rAFIsPaused) delay();
     }, 100)
@@ -142,23 +177,25 @@ const changeWithTime = () => {
   delay(); 
 }
 
-let isRunning = false;
-let b = 0;
 const colorChanger = () => {
   isRunning = true;
 
-  leftLight.style = ` background: 
-  linear-gradient(70deg, transparent 41.75%, white 34.5%), 
-  linear-gradient(15deg, transparent 63.5%, white 5%),
-  linear-gradient(360deg, transparent 32% , rgb(${colors[b][0][0]}, ${colors[b][0][1]}, ${colors[b][0][2]}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));`
-
-  rightLight.style = ` background: 
-  linear-gradient(-53.1deg, transparent 60%, white 20.5%), 
-  linear-gradient(-41deg, transparent 49.6%, white 0%),
-  linear-gradient(15deg, transparent 42% , rgb(${colors[b][0][0]}, ${colors[b][0][1]}, ${colors[b][0][2]}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));`
+  changeLightsWithPitch();
 
   function delay() {  
     setTimeout(() => isRunning = false, 400);
   }
   delay();
+}
+
+const changeLightsWithPitch = () => {
+  leftLight.style = ` background: 
+  linear-gradient(70deg, transparent 41.75%, white 34.5%), 
+  linear-gradient(15deg, transparent 63.5%, white 5%),
+  linear-gradient(360deg, transparent 32% , rgb(${colors[b][0][0] - detuneColor}, ${colors[b][0][1] - detuneColor}, ${colors[b][0][2] - detuneColor}), rgb(${colors[b][1][0] - detuneColor}, ${colors[b][1][1] - detuneColor}, ${colors[b][1][2] - detuneColor}));`
+
+  rightLight.style = ` background: 
+  linear-gradient(-53.1deg, transparent 60%, white 20.5%), 
+  linear-gradient(-41deg, transparent 49.6%, white 0%),
+  linear-gradient(15deg, transparent 42% , rgb(${colors[b][0][0] - detuneColor}, ${colors[b][0][1] - detuneColor}, ${colors[b][0][2] - detuneColor}), rgb(${colors[b][1][0] - detuneColor}, ${colors[b][1][1] - detuneColor}, ${colors[b][1][2] - detuneColor}));`
 }
