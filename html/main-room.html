@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" text="text/css" href="../css/main-room.css"/>
     <link rel="stylesheet" text="text/css" href="../css/rain.css"/>
+    <link rel="stylesheet" text="text/css" href="../css/drop-down.css"/>
 
     <style>
       .options-menu {
@@ -34,7 +35,7 @@
       <div class="full-viewport object-cover absolute" id="rain-container"></div>
       
       <div class="full-viewport object-cover relative">
-        <img class="full-viewport object-cover absolute" src="../images/cafe-night.png" />
+        <img id="backgroundImage" class="full-viewport object-cover absolute" src="../images/cafe-night.png" />
         
         <svg id="svg-left-light" class="full-viewport object-cover absolute remove-white-background" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg" style="
         background: 
@@ -67,8 +68,6 @@
             >
             <output id="rain-volume-output">0</output>
           </div> <br>
-
-          <button id="start">start</button><button id="stop">stop</button>
   
           <div id="playback-rate-adjust-div">
             <span id="playback-rate-input-title">Playback Rate:</span>
@@ -106,13 +105,88 @@
           <div>
             <button id="dynamicLights">Disable dynamic lights</button>
           </div>
+
+          <div>
+            <button id="changeBackground">White Background</button>
+          </div>
+
+          <div class="header">
+            <div class="dropdown" data-dropdown>
+              <button class="link" data-dropdown-button>Information</button>
+              <div class="dropdown-menu information-grid">
+                <div>
+                  <div class="dropdown-heading">Free Tutorials</div>
+                  <div class="dropdown-links">
+                    <a href="#" class="link">All</a>
+                    <a href="#" class="link">Latest</a>
+                    <a href="#" class="link">Popular</a>
+                  </div>
+                </div>
+                <div>
+                  <div class="dropdown-heading">Courses</div>
+                  <div class="dropdown-links">
+                    <a href="#" class="link">JavaScript</a>
+                    <a href="#" class="link">CSS</a>
+                    <a href="#" class="link">React</a>
+                  </div>
+                </div>
+                <div>
+                  <div class="dropdown-heading">Blog</div>
+                  <div class="dropdown-links">
+                    <a href="#" class="link">All</a>
+                    <a href="#" class="link">Latest</a>
+                    <a href="#" class="link">Popular</a>
+                  </div>
+                </div>
+                <div>
+                  <div class="dropdown-heading">Other</div>
+                  <div class="dropdown-links">
+                    <a href="#" class="link">Twitter</a>
+                    <a href="#" class="link">Newsletter</a>
+                    <a href="#" class="link">Discord</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown" data-dropdown>
+              <button class="link" data-dropdown-button>Songs</button>
+              <div class="dropdown-menu">
+
+                <ul class="songs">
+                  <li>
+                    <i class="start-song fa-solid fa-play" ></i>
+                    <span>Ice Cube - It was a good day</span>
+                    <input type="range" value="50" min="0" max="100" step="1">
+                  </li>
+
+                  <li>
+                    <i class="start-song fa-solid fa-play" ></i>
+                    <span>Frank Ocean - Nikes</span>
+                    <input type="range" value="50" min="0" max="100" step="1">
+                  </li>
+
+                  <li>
+                    <i class="start-song fa-solid fa-play" ></i>
+                    <span>Teste - testing</span>
+                    <input type="range" value="50" min="0" max="100" step="1">
+                  </li>
+                </ul>
+                  
+              </div>
+            </div>
+          </div>
+          
         </div>
+
 
       </div>
     </main>
+    
+    <script src="https://kit.fontawesome.com/876aed742f.js" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.5.44/Tone.js"></script>
     <script src="../js/rain.js"></script>
     <script src="../js/main-room.js"></script>
+    <script src="../js/drop-down.js"></script>
   </body>
 </html>

@@ -4,10 +4,11 @@ let reverb = new Tone.Reverb({
 	"preDelay": 0.01
 }).toDestination();
 
-let player = new Tone.GrainPlayer({
-  "url": "../audios/good-day.mp3",
+let mp3 = "../audios/good-day.mp3";
+
+let player = new Tone.Player({
   "playbackRate": document.querySelector('#playback-rate-output').value,
-}).toDestination()
+}).toDestination() // como trocar a url do player?
 
 let detuneColor = 0;
 
@@ -31,31 +32,121 @@ dynamicLightsButton.addEventListener('click', () => {
   }
 })
 
+let currentBackground = 'dark';
+let backgroundImage = document.querySelector('#backgroundImage');
+let changeBackgroundButton = document.querySelector('#changeBackground');
+
+changeBackgroundButton.addEventListener('click', () => {
+  if(currentBackground == 'dark') {
+    currentBackground = 'white'
+    changeBackgroundButton.innerHTML = "Dark Background"
+    backgroundImage.src = "../images/cafe.png"
+  } else {
+    currentBackground = 'dark'
+    changeBackgroundButton.innerHTML = "White Background"
+    backgroundImage.src = "../images/cafe-night.png"
+  }
+})
+
+let playButton = document.querySelectorAll('.start-song');
+let isPlaying = false;
 let rAFIsPaused = true;
 
-player.sync().start(0);
-document.querySelector('#start').addEventListener('click', () => {
-  rAFIsPaused = false;
-  changeWithTime()
-  draw();
+player.sync().start();
 
-  Tone.start();
-  Tone.Transport.start();
+let currentSong;
+
+playButton.forEach(song => {
+  song.addEventListener('click', () => {
+    if(!isPlaying) {
+      
+      isPlaying = true;
+      rAFIsPaused = false;
+      changeWithTime()
+      draw();
+      
+      let buffer = new Tone.Buffer(mp3, () => {
+        player.buffer = buffer;
+
+        Tone.start();
+        Tone.Transport.start();
+        currentSong = song;
+    
+        song.classList.remove('fa-play');
+        song.classList.add('fa-pause');
+      });
+      
+    } else {
+      if(song !== currentSong) {
+        currentSong.classList.remove('fa-pause');
+        currentSong.classList.add('fa-play'); 
+
+        song.classList.remove('fa-play');
+        song.classList.add('fa-pause'); 
+
+        mp3 = '../audios/nikes.mp3' // deixar dinamico
+        player.stop();
+        player.restart()
+
+        let buffer = new Tone.Buffer(mp3, () => {
+          player.buffer = buffer;
+          
+          player.start();
+          Tone.start();
+          Tone.Transport.start();
+          currentSong = song;
+        });
+
+      } else {
+        isPlaying = false;
+        rAFIsPaused = true;
+        
+        Tone.Transport.fadeIn = 0.1;
+        Tone.Transport.fadeOut = 0.1;
+        player.fadeIn = 0.1;
+        player.fadeOut = 0.1;
+
+        Tone.Transport.stop(1);
+    
+        song.classList.remove('fa-pause');
+        song.classList.add('fa-play');
+      }
+    }
+  })
 })
 
-document.querySelector('#stop').addEventListener('click', () => {
+// playButton.addEventListener('click', () => {
+//   if(!isPlaying) {
+
+//     isPlaying = true;
+//     rAFIsPaused = false;
+//     changeWithTime()
+//     draw();
   
-  rAFIsPaused = true;
-  Tone.Transport.pause();
-})
+//     Tone.start();
+//     Tone.Transport.start();
+
+//     playButton.classList.remove('fa-play');
+//     playButton.classList.add('fa-pause');
+
+//   } else {
+//     isPlaying = false;
+//     rAFIsPaused = true;
+//     Tone.Transport.stop();
+
+//     playButton.classList.remove('fa-pause');
+//     playButton.classList.add('fa-play');
+//   }
+// })
+
+
 
 let playbackRateValue = 1;
 let inputDetuneValue = 0; // that var is created to avoid activateDynamicPitch function to overlay the input value
 let detuneValue = 0;
 
 const activateDynamicPitch = () => {
-  if(dynamicPitch.checked) {
-
+  if(dynamicPitch.checked) {    
     if(playbackRateValue < 1) {
       detuneValue = ((Number(playbackRateValue) - 1) * 0.12) * 20000;
     } else {
@@ -163,7 +254,7 @@ const draw = () => {
     max += (max/100) * d
   }
 
-  if (max > (avg * 2)) {
+  if (max > 69) { // (max > avg * 2)
     if(!isRunning) colorChanger();
   }
 }

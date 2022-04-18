@@ -24,3 +24,15 @@
 .remove-white-background {
   mix-blend-mode: darken;
 }
+
+.start-song{
+
+}
+
+.pause-song{
+  
+}
+
+ul {
+  list-style-type: none;
+}
