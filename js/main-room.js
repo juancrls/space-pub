@@ -4,9 +4,12 @@ let reverb = new Tone.Reverb({
 	"preDelay": 0.01
 }).toDestination();
 
-let mp3 = "../audios/good-day.mp3";
+let mp3 = "../audios/nadabom.mp3";
 
-let player = new Tone.Player({
+let player = new Tone.GrainPlayer({
+  "mute": false,
+	"volume": 0,
+	"reverse": false,
   "playbackRate": document.querySelector('#playback-rate-output').value,
 }).toDestination() // como trocar a url do player?
 
@@ -49,18 +52,13 @@ changeBackgroundButton.addEventListener('click', () => {
 })
 
 let playButton = document.querySelectorAll('.start-song');
-let isPlaying = false;
 let rAFIsPaused = true;
-
-player.sync().start();
 
 let currentSong;
 
 playButton.forEach(song => {
   song.addEventListener('click', () => {
-    if(!isPlaying) {
-      
-      isPlaying = true;
+    if(player.state == 'stopped') {
       rAFIsPaused = false;
       changeWithTime()
       draw();
@@ -68,8 +66,8 @@ playButton.forEach(song => {
       let buffer = new Tone.Buffer(mp3, () => {
         player.buffer = buffer;
 
-        Tone.start();
-        Tone.Transport.start();
+        Tone.Transform.start();
+        player.sync().start(0);
         currentSong = song;
     
         song.classList.remove('fa-play');
@@ -77,69 +75,43 @@ playButton.forEach(song => {
       });
       
     } else {
-      if(song !== currentSong) {
-        currentSong.classList.remove('fa-pause');
-        currentSong.classList.add('fa-play'); 
+      player.stop();
+      rAFIsPaused = true;
+      
+      player.stop();
 
-        song.classList.remove('fa-play');
-        song.classList.add('fa-pause'); 
+      song.classList.remove('fa-pause');
+      song.classList.add('fa-play');
 
-        mp3 = '../audios/nikes.mp3' // deixar dinamico
-        player.stop();
-        player.restart()
+      // if(song !== currentSong) {
+      //   currentSong.classList.remove('fa-pause');
+      //   currentSong.classList.add('fa-play'); 
 
-        let buffer = new Tone.Buffer(mp3, () => {
-          player.buffer = buffer;
+      //   song.classList.remove('fa-play');
+      //   song.classList.add('fa-pause'); 
+
+      //   mp3 = '../audios/nikes.mp3' // deixar dinamico
+      //   player.stop();
+      //   player.restart()
+
+      //   let buffer = new Tone.Buffer(mp3, () => {
+      //     player.buffer = buffer;
           
-          player.start();
-          Tone.start();
-          Tone.Transport.start();
-          currentSong = song;
-        });
+      //     player.start();
+      //     currentSong = song;
+      //   });
 
-      } else {
-        isPlaying = false;
-        rAFIsPaused = true;
+      // } else {
+      //   rAFIsPaused = true;
         
-        Tone.Transport.fadeIn = 0.1;
-        Tone.Transport.fadeOut = 0.1;
-        player.fadeIn = 0.1;
-        player.fadeOut = 0.1;
+      //   player.stop();
 
-        Tone.Transport.stop(1);
-    
-        song.classList.remove('fa-pause');
-        song.classList.add('fa-play');
-      }
+      //   song.classList.remove('fa-pause');
+      //   song.classList.add('fa-play');
+      // }
     }
   })
 })
-
-// playButton.addEventListener('click', () => {
-//   if(!isPlaying) {
-
-//     isPlaying = true;
-//     rAFIsPaused = false;
-//     changeWithTime()
-//     draw();
-  
-//     Tone.start();
-//     Tone.Transport.start();
-
-//     playButton.classList.remove('fa-play');
-//     playButton.classList.add('fa-pause');
-
-//   } else {
-//     isPlaying = false;
-//     rAFIsPaused = true;
-//     Tone.Transport.stop();
-
-//     playButton.classList.remove('fa-pause');
-//     playButton.classList.add('fa-play');
-//   }
-// })
-
-
 
 let playbackRateValue = 1;
 let inputDetuneValue = 0; // that var is created to avoid activateDynamicPitch function to overlay the input value
