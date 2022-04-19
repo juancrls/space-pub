@@ -4,16 +4,14 @@ let reverb = new Tone.Reverb({
 	"preDelay": 0.01
 }).toDestination();
 
-let mp3 = "../audios/nadabom.mp3";
-
-let player = new Tone.GrainPlayer({
+let player = new Tone.Player({
   "mute": false,
 	"volume": 0,
 	"reverse": false,
   "playbackRate": document.querySelector('#playback-rate-output').value,
 }).toDestination() // como trocar a url do player?
 
-let detuneColor = 0;
+let color = 0;
 
 let dynamicLights = true;
 let dynamicLightsButton = document.querySelector('#dynamicLights');
@@ -24,7 +22,6 @@ dynamicLightsButton.addEventListener('click', () => {
     dynamicLights = false;
     rAFIsPaused = true;
   } else {
-    console.log('test')
     dynamicLightsButton.innerHTML = "Disable dynamic lights"
     
     dynamicLights = true;
@@ -57,58 +54,59 @@ let rAFIsPaused = true;
 let currentSong;
 
 playButton.forEach(song => {
-  song.addEventListener('click', () => {
+  song.addEventListener('click', async () => {
+    let mp3 = `../audios/${song.nextElementSibling.id}.mp3`
+
     if(player.state == 'stopped') {
       rAFIsPaused = false;
       changeWithTime()
       draw();
-      
-      let buffer = new Tone.Buffer(mp3, () => {
-        player.buffer = buffer;
 
-        Tone.Transform.start();
-        player.sync().start(0);
-        currentSong = song;
-    
-        song.classList.remove('fa-play');
-        song.classList.add('fa-pause');
-      });
-      
-    } else {
-      player.stop();
-      rAFIsPaused = true;
-      
-      player.stop();
-
-      song.classList.remove('fa-pause');
-      song.classList.add('fa-play');
-
-      // if(song !== currentSong) {
-      //   currentSong.classList.remove('fa-pause');
-      //   currentSong.classList.add('fa-play'); 
-
-      //   song.classList.remove('fa-play');
-      //   song.classList.add('fa-pause'); 
-
-      //   mp3 = '../audios/nikes.mp3' // deixar dinamico
-      //   player.stop();
-      //   player.restart()
-
-      //   let buffer = new Tone.Buffer(mp3, () => {
-      //     player.buffer = buffer;
+      const createBuffer = () => {
+        return new Tone.Buffer(mp3, () => {
+          player.buffer = buffer;
+  
+          currentSong = song;
           
-      //     player.start();
-      //     currentSong = song;
-      //   });
+          song.classList.remove('fa-play');
+          song.classList.add('fa-pause');
+          player.sync().start();
+          Tone.start();
+          Tone.Transport.start();
+        });
+      }
+      
+      let buffer = await createBuffer();
 
-      // } else {
-      //   rAFIsPaused = true;
-        
-      //   player.stop();
+    } else {
+      if(song == currentSong) { // if the pause event is for the current song
+        rAFIsPaused = true;
+        console.log('playbackRate', player.playbackRate);
+        console.log('pausado', player.buffer.duration);
 
-      //   song.classList.remove('fa-pause');
-      //   song.classList.add('fa-play');
-      // }
+        Tone.Transport.pause();
+
+        song.classList.remove('fa-pause');
+        song.classList.add('fa-play');
+      } else { // if isn't, will reset the icons and play the requested song
+        currentSong.classList.remove('fa-pause');
+        currentSong.classList.add('fa-play'); 
+
+        song.classList.remove('fa-play');
+        song.classList.add('fa-pause'); 
+
+        mp3 = `../audios/${song.nextElementSibling.id}.mp3`
+        player.stop();
+        player.restart()
+
+        let buffer = new Tone.Buffer(mp3, () => { // create a buffer with the song requested
+          player.buffer = buffer;
+          player.start();
+
+          currentSong = song;
+        });
+
+      }
     }
   })
 })
@@ -117,57 +115,15 @@ let playbackRateValue = 1;
 let inputDetuneValue = 0; // that var is created to avoid activateDynamicPitch function to overlay the input value
 let detuneValue = 0;
 
-const activateDynamicPitch = () => {
-  if(dynamicPitch.checked) {    
-    if(playbackRateValue < 1) {
-      detuneValue = ((Number(playbackRateValue) - 1) * 0.12) * 20000;
-    } else {
-      detuneValue = ((Number(playbackRateValue) - 1) * 0.12) * 10000;
-    }
-  }
-  return detuneValue;
-}
-
 // PLAYBACK RATE
 document.querySelector('#playback-rate-input').addEventListener('input', (e) => {
   playbackRateValue = e.currentTarget.value; // saves playback rate value inside the global var playbackRateValue;
   document.querySelector('#playback-rate-output').value = playbackRateValue; // modifies the number aside the input bar;
-
-  if(dynamicPitchCheckbox.checked) {
-    player.detune = Math.floor(activateDynamicPitch());
-    detuneColor = player.detune / -20;
-    changeLightsWithPitch()
-  }
-
   player.playbackRate = playbackRateValue;
+
+  color = playbackRateValue < 1 ? ((Number(playbackRateValue - 1) * 0.12) * 20000) / -15 : ((Number(playbackRateValue - 1) * 0.12) * 10000) / -15
+  changeLightsWithPitch();
 }, false)
-
-// PITCH
-document.querySelector('#pitch-input').addEventListener('input', (e) => {
-  let val = e.currentTarget.value;
-  document.querySelector('#pitch-output').value = val;
-
-  inputDetuneValue = val * 100;
-  player.detune = inputDetuneValue;
-  detuneColor = player.detune / -20;
-  changeLightsWithPitch()
-  
-}, false)
-
-// CHECKBOX
-let dynamicPitchCheckbox = document.getElementById('dynamicPitch');
-dynamicPitchCheckbox.addEventListener('click', () => {
-  detuneColor = player.detune / -20;
-  changeLightsWithPitch()
-
-  if(dynamicPitchCheckbox.checked) {
-    player.detune = Math.floor(activateDynamicPitch()); // makes detune value relative to playback rat) e
-    document.querySelector('#pitch-adjust-div').style.display = 'none'
-  } else {
-    player.detune = inputDetuneValue;
-    document.querySelector('#pitch-adjust-div').style.display = 'block'
-  }
-});
 
 // BATHROOM
 let inBathroom = false;
@@ -220,11 +176,11 @@ const draw = () => {
   let avg = (sum / dataArray.length) || 0;
 
   
-  let d = (player.detune / 100) * 7; // percentage needed to increase avg calc
+  // let d = (player.detune / 100) * 7; // percentage needed to increase avg calc
   let max = Math.max(...dataArray) + 100
-  if(player.detune > 0) {
-    max += (max/100) * d
-  }
+  // if(player.detune > 0) {
+  //   max += (max/100) * d
+  // }
 
   if (max > 69) { // (max > avg * 2)
     if(!isRunning) colorChanger();
@@ -264,10 +220,10 @@ const changeLightsWithPitch = () => {
   leftLight.style = ` background: 
   linear-gradient(70deg, transparent 41.75%, white 34.5%), 
   linear-gradient(15deg, transparent 63.5%, white 5%),
-  linear-gradient(360deg, transparent 32% , rgb(${colors[b][0][0] - detuneColor}, ${colors[b][0][1] - detuneColor}, ${colors[b][0][2] - detuneColor}), rgb(${colors[b][1][0] - detuneColor}, ${colors[b][1][1] - detuneColor}, ${colors[b][1][2] - detuneColor}));`
+  linear-gradient(360deg, transparent 32% , rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));`
 
   rightLight.style = ` background: 
   linear-gradient(-53.1deg, transparent 60%, white 20.5%), 
   linear-gradient(-41deg, transparent 49.6%, white 0%),
-  linear-gradient(15deg, transparent 42% , rgb(${colors[b][0][0] - detuneColor}, ${colors[b][0][1] - detuneColor}, ${colors[b][0][2] - detuneColor}), rgb(${colors[b][1][0] - detuneColor}, ${colors[b][1][1] - detuneColor}, ${colors[b][1][2] - detuneColor}));`
+  linear-gradient(15deg, transparent 42% , rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));`
 }

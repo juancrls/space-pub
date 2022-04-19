@@ -61,12 +61,12 @@
             <input
               type="range"
               id="rain-volume-input"
-              value="0"
-              min="-12"
-              max="12"
+              value="5"
+              min="1"
+              max="10"
               step="1"
             >
-            <output id="rain-volume-output">0</output>
+            <output id="rain-volume-output">5</output>
           </div> <br>
   
           <div id="playback-rate-adjust-div">
@@ -82,26 +82,10 @@
             <output id="playback-rate-output">1</output>
           </div>
       
-          <div id="pitch-adjust-div">
-            <span id="pitch-input-title">Pitch:</span>
-            <input
-              type="range"
-              id="pitch-input"
-              value="0"
-              min="-12"
-              max="12"
-              step="1"
-            >
-            <output id="pitch-output">0</output>
-          </div>
-      
           <div>
             <button id="bathroom-door">Enter Bathroom</button>
           </div>
       
-          <label for="dynamicPitch">Change pitch dynamically</label>
-          <input type="checkbox" id = "dynamicPitch">
-
           <div>
             <button id="dynamicLights">Disable dynamic lights</button>
           </div>
@@ -150,24 +134,37 @@
             </div>
             <div class="dropdown" data-dropdown>
               <button class="link" data-dropdown-button>Songs</button>
+              
               <div class="dropdown-menu">
 
                 <ul class="songs">
                   <li>
                     <i class="start-song fa-solid fa-play" ></i>
-                    <span>Ice Cube - It was a good day</span>
+                    <span id="good-day">Ice Cube - It was a good day</span>
                     <input type="range" value="50" min="0" max="100" step="1">
                   </li>
 
                   <li>
                     <i class="start-song fa-solid fa-play" ></i>
-                    <span>Frank Ocean - Nikes</span>
+                    <span id="nikes">Frank Ocean - Nikes</span>
                     <input type="range" value="50" min="0" max="100" step="1">
                   </li>
 
                   <li>
                     <i class="start-song fa-solid fa-play" ></i>
-                    <span>Teste - testing</span>
+                    <span id="nadabom">Costa Gold - N.A.D.A.B.O.M</span>
+                    <input type="range" value="50" min="0" max="100" step="1">
+                  </li>
+
+                  <li>
+                    <i class="start-song fa-solid fa-play" ></i>
+                    <span id="zap">zap - tests</span>
+                    <input type="range" value="50" min="0" max="100" step="1">
+                  </li>
+
+                  <li>
+                    <i class="start-song fa-solid fa-play" ></i>
+                    <span id="qmtavala">Costa Gold - Quem Tava Lá?</span>
                     <input type="range" value="50" min="0" max="100" step="1">
                   </li>
                 </ul>
