@@ -8,8 +8,9 @@ let player = new Tone.Player({
   "mute": false,
 	"volume": 0,
 	"reverse": false,
+  "fadeOut": 0.5,
   "playbackRate": document.querySelector('#playback-rate-output').value,
-}).toDestination() // como trocar a url do player?
+}).toDestination()
 
 let color = 0;
 
@@ -62,32 +63,26 @@ playButton.forEach(song => {
       changeWithTime()
       draw();
 
-      const createBuffer = () => {
-        return new Tone.Buffer(mp3, () => {
-          player.buffer = buffer;
-  
-          currentSong = song;
-          
-          song.classList.remove('fa-play');
-          song.classList.add('fa-pause');
-          player.sync().start();
-          Tone.start();
-          Tone.Transport.start();
-        });
-      }
-      
-      let buffer = await createBuffer();
+      song.classList.remove('fa-play');
+      song.classList.add('fa-pause');
 
+      currentSong = song;
+      await player.load(mp3);
+
+      Tone.start();
+      player.start();
+      
     } else {
       if(song == currentSong) { // if the pause event is for the current song
         rAFIsPaused = true;
-        console.log('playbackRate', player.playbackRate);
-        console.log('pausado', player.buffer.duration);
 
-        Tone.Transport.pause();
-
+        player.connect(reverb)
+        player.stop()
         song.classList.remove('fa-pause');
         song.classList.add('fa-play');
+
+        await sleep(1300);
+        player.disconnect(reverb)
       } else { // if isn't, will reset the icons and play the requested song
         currentSong.classList.remove('fa-pause');
         currentSong.classList.add('fa-play'); 
@@ -97,15 +92,13 @@ playButton.forEach(song => {
 
         mp3 = `../audios/${song.nextElementSibling.id}.mp3`
         player.stop();
-        player.restart()
+        player.connect(reverb)
+        
+        await player.load(mp3);
+        player.disconnect(reverb)
+        player.start()
 
-        let buffer = new Tone.Buffer(mp3, () => { // create a buffer with the song requested
-          player.buffer = buffer;
-          player.start();
-
-          currentSong = song;
-        });
-
+        currentSong = song;
       }
     }
   })
