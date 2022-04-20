@@ -12,6 +12,13 @@ let player = new Tone.Player({
   "playbackRate": document.querySelector('#playback-rate-output').value,
 }).toDestination()
 
+
+
+
+let doorOpeningSound = new Tone.Player("../audios/door-opening.mp3").toDestination();
+let doorClosingSound = new Tone.Player("../audios/door-closing.mp3").toDestination();
+
+
 let color = 0;
 
 let dynamicLights = true;
@@ -118,39 +125,95 @@ document.querySelector('#playback-rate-input').addEventListener('input', (e) => 
   changeLightsWithPitch();
 }, false)
 
-// BATHROOM
-let inBathroom = false;
+// BATHROOM'
+let leftLight = document.getElementById("svg-left-light");
+let rightLight = document.getElementById("svg-right-light");
+let bathroomLight = document.getElementById('bathroom-light');
 
+let leftLightDisplay = 'block';
+let rightLightDisplay = 'block';
+let bathroomDisplay = 'none';
+
+let ledLights = document.querySelectorAll('.led-light');
+
+let inBathroom = false;
+let bathroomIsTransitioning = false;
+
+let bathroomTransition = document.getElementById('bathroom-transition');
 let bathroomButton = document.getElementById('bathroom-door');
 bathroomButton.addEventListener('click', () => {
+  if(bathroomIsTransitioning) return;
+  bathroomIsTransitioning = true;
   
   if(!inBathroom) {
     console.log('...entering');
+
+    bathroomTransition.classList.add('elementToFadeInAndOut');
     
     setTimeout(() => {
+      doorOpeningSound.start();
+    }, 500);
+
+    setTimeout(() => {
+      backgroundImage.src = "../images/bathroom.jpg"
+
+      bathroomDisplay = 'block';
+      leftLightDisplay = 'none';
+      rightLightDisplay = 'none';
+
+      bathroomLight.style.display = bathroomDisplay;
+
+      inBathroom = true;
+
+      leftLight.style.display = leftLightDisplay;
+      rightLight.style.display = rightLightDisplay;
       player.connect(reverb);
-      bathroomButton.innerHTML = 'Leave Bathroom';
-    }, 2000);
+    }, 1500);
     
-    inBathroom = true;
+    setTimeout(() => {
+      bathroomButton.innerHTML = 'Leave Bathroom';
+      bathroomTransition.classList.remove('elementToFadeInAndOut');
+      bathroomIsTransitioning = false;
+    }, 3000);
+    
   } else {
     console.log('...leaving');
-    
-    setTimeout(() => {
-      player.disconnect(reverb);
-      bathroomButton.innerHTML = 'Enter Bathroom';
-    }, 2000);
+    bathroomTransition.classList.add('elementToFadeInAndOut');
 
-    inBathroom = false; 
+    setTimeout(() => {
+      doorClosingSound.start();
+    }, 500);
+
+    setTimeout(() => {
+      backgroundImage.src = "../images/cafe-night.png"
+
+      bathroomDisplay = 'none';
+      leftLightDisplay = 'block';
+      rightLightDisplay = 'block';
+
+      leftLight.style.display = leftLightDisplay;
+      rightLight.style.display = rightLightDisplay;
+
+      inBathroom = false;
+
+      bathroomLight.style.display = bathroomDisplay;
+      leftLight.style.display = leftLightDisplay;
+      rightLight.style.display = rightLightDisplay;
+      player.disconnect(reverb);
+    }, 1500);
+
+    setTimeout(() => {
+      bathroomButton.innerHTML = 'Enter Bathroom';
+      bathroomTransition.classList.remove('elementToFadeInAndOut');
+      bathroomIsTransitioning = false;
+    }, 3000);
+
   }
 });
 
 let fftSize = 256;
 let analyser = new Tone.Analyser("fft", fftSize)
 player.connect(analyser)
-
-let leftLight = document.getElementById("svg-left-light");
-let rightLight = document.getElementById("svg-right-light");
 
 const colors = [
   [[135, 55, 135], [95, 0, 119]],
@@ -176,10 +239,10 @@ const draw = () => {
   // }
 
   if (max > 69) { // (max > avg * 2)
+    console.log('beat')
     if(!isRunning) colorChanger();
   }
 }
-
 
 let isRunning = false;
 let b = 0;
@@ -203,20 +266,35 @@ const colorChanger = () => {
 
   changeLightsWithPitch();
 
-  function delay() {  
-    setTimeout(() => isRunning = false, 400 / player.playbackRate);
+  /* 
+  @ idea: instead of changing the lights for every high frequency detected,
+  change the light when the high frequency isn't detected for more than 10ms
+  */
+  function delay() {  // @ will set the light change frequency -> idea: adjust the delay based on the BPM
+    setTimeout(() => isRunning = false, 200 / player.playbackRate);
   }
   delay();
 }
 
 const changeLightsWithPitch = () => {
-  leftLight.style = ` background: 
-  linear-gradient(70deg, transparent 41.75%, white 34.5%), 
-  linear-gradient(15deg, transparent 63.5%, white 5%),
-  linear-gradient(360deg, transparent 32% , rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));`
 
-  rightLight.style = ` background: 
-  linear-gradient(-53.1deg, transparent 60%, white 20.5%), 
-  linear-gradient(-41deg, transparent 49.6%, white 0%),
-  linear-gradient(15deg, transparent 42% , rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));`
+  if(inBathroom) {
+    bathroomLight.style = ` background: 
+    linear-gradient(73deg, transparent 100%, white 100%), 
+    linear-gradient(54deg, transparent 100%, white 100%),
+    linear-gradient(3deg, transparent 30% , rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));">
+    display: ${bathroomDisplay}`
+  } else {
+    leftLight.style = ` background: 
+    linear-gradient(70deg, transparent 41.75%, white 34.5%), 
+    linear-gradient(15deg, transparent 63.5%, white 5%),
+    linear-gradient(360deg, transparent 32% , rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));
+    display: ${leftLightDisplay}`
+  
+    rightLight.style = ` background: 
+    linear-gradient(-53.1deg, transparent 60%, white 20.5%), 
+    linear-gradient(-41deg, transparent 49.6%, white 0%),
+    linear-gradient(15deg, transparent 42% , rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));
+    display: ${rightLightDisplay}`
+  }
 }
