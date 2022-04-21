@@ -132,7 +132,7 @@ let bathroomLight = document.getElementById('bathroom-light');
 
 let leftLightDisplay = 'block';
 let rightLightDisplay = 'block';
-let bathroomDisplay = 'none';
+let bathroomLightDisplay = 'none';
 
 let ledLights = document.querySelectorAll('.led-light');
 
@@ -157,16 +157,18 @@ bathroomButton.addEventListener('click', () => {
     setTimeout(() => {
       backgroundImage.src = "../images/bathroom.jpg"
 
-      bathroomDisplay = 'block';
-      leftLightDisplay = 'none';
-      rightLightDisplay = 'none';
-
-      bathroomLight.style.display = bathroomDisplay;
+      if(lights) {
+        bathroomLightDisplay = 'block';
+        leftLightDisplay = 'none';
+        rightLightDisplay = 'none';
+  
+        leftLight.style.display = leftLightDisplay;
+        rightLight.style.display = rightLightDisplay;
+        bathroomLight.style.display = bathroomLightDisplay;
+      }
 
       inBathroom = true;
 
-      leftLight.style.display = leftLightDisplay;
-      rightLight.style.display = rightLightDisplay;
       player.connect(reverb);
     }, 1500);
     
@@ -187,18 +189,17 @@ bathroomButton.addEventListener('click', () => {
     setTimeout(() => {
       backgroundImage.src = "../images/cafe-night.png"
 
-      bathroomDisplay = 'none';
-      leftLightDisplay = 'block';
-      rightLightDisplay = 'block';
-
-      leftLight.style.display = leftLightDisplay;
-      rightLight.style.display = rightLightDisplay;
-
+      if(lights) {
+        bathroomLightDisplay = 'none';
+        leftLightDisplay = 'block';
+        rightLightDisplay = 'block';
+  
+        leftLight.style.display = leftLightDisplay;
+        rightLight.style.display = rightLightDisplay;
+        bathroomLight.style.display = bathroomLightDisplay;
+      }
       inBathroom = false;
 
-      bathroomLight.style.display = bathroomDisplay;
-      leftLight.style.display = leftLightDisplay;
-      rightLight.style.display = rightLightDisplay;
       player.disconnect(reverb);
     }, 1500);
 
@@ -210,6 +211,34 @@ bathroomButton.addEventListener('click', () => {
 
   }
 });
+
+let lights = true;
+let disableLightsButton = document.getElementById('disableLights')
+disableLightsButton.addEventListener('click', () => {
+  lights = !lights;
+
+  if(!lights) {
+    disableLightsButton.innerHTML = 'Enable lights';
+
+    leftLightDisplay = 'none';
+    rightLightDisplay = 'none';
+    bathroomLightDisplay = 'none';
+  } else {
+    changeLightsWithPitch(); // if the user change the playback rate while the lights are disabled, this line will adjust the lights based on playback rate when the lights are turned on again
+
+    if(inBathroom) {
+      bathroomLightDisplay = 'block';
+    } else {
+      leftLightDisplay = 'block';
+      rightLightDisplay = 'block';
+    }
+  }
+
+  leftLight.style.display = leftLightDisplay;
+  rightLight.style.display = rightLightDisplay;
+  bathroomLight.style.display = bathroomLightDisplay;
+  
+})
 
 let fftSize = 256;
 let analyser = new Tone.Analyser("fft", fftSize)
@@ -267,23 +296,26 @@ const colorChanger = () => {
   changeLightsWithPitch();
 
   /* 
-  @ idea: instead of changing the lights for every high frequency detected,
+  @idea: instead of changing the lights for every high frequency detected,
   change the light when the high frequency isn't detected for more than 10ms
+
+  @idea: add a bass boost on the audio only for the analyser, but keep the song normal in the toDestination();
   */
-  function delay() {  // @ will set the light change frequency -> idea: adjust the delay based on the BPM
+  function delay() {  // @ will set the light change frequency -> @idea: adjust the delay based on the BPM
     setTimeout(() => isRunning = false, 200 / player.playbackRate);
   }
   delay();
 }
 
 const changeLightsWithPitch = () => {
+  if(!lights) return;
 
   if(inBathroom) {
     bathroomLight.style = ` background: 
     linear-gradient(73deg, transparent 100%, white 100%), 
     linear-gradient(54deg, transparent 100%, white 100%),
     linear-gradient(3deg, transparent 30% , rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color}), rgb(${colors[b][1][0]}, ${colors[b][1][1]}, ${colors[b][1][2]}));">
-    display: ${bathroomDisplay}`
+    display: ${bathroomLightDisplay}`
   } else {
     leftLight.style = ` background: 
     linear-gradient(70deg, transparent 41.75%, white 34.5%), 

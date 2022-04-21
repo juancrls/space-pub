@@ -69,3 +69,26 @@ ul {
     opacity: 0;
   }
 }
+
+
+button {
+  border-top-left-radius: 8px;
+  background: burlywood;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em 1em;
+
+  transition: 0.3s;
+  transform: translateY(0.05em);
+}
+
+button:hover,
+button:focus {
+  cursor: pointer;
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  
+  transition: 0.1s;
+  transform: translateY(-0.1em) translateX(-0.05em);
+}

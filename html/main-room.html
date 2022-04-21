@@ -66,83 +66,59 @@
         <div id="bathroom-transition" class="full-viewport object-cover absolute"></div> <!-- bathroom transition element -->
         <div class="absolute options-menu" id="color-beat">
 
-          <div id="rain-volume-adjust-div">
-            <button id="rain-button">rain</button>
-            <span id="rain-volume-input-title">Volume:</span>
-            <input
-              type="range"
-              id="rain-volume-input"
-              value="5"
-              min="1"
-              max="10"
-              step="1"
-            >
-            <output id="rain-volume-output">5</output>
-          </div> <br>
-  
-          <div id="playback-rate-adjust-div">
-            <span id="playback-rate-input-title">Playback Rate:</span>
-            <input
-              type="range"
-              id="playback-rate-input"
-              value="1"
-              min="0.5"
-              max="2"
-              step="0.01"
-            />
-            <output id="playback-rate-output">1</output>
-          </div>
-      
-          <div>
-            <button id="bathroom-door">Enter Bathroom</button>
-          </div>
-      
-          <div>
-            <button id="dynamicLights">Disable dynamic lights</button>
-          </div>
 
-          <div>
-            <button id="changeBackground">White Background</button>
-          </div>
 
           <div class="header">
             <div class="dropdown" data-dropdown>
-              <button class="link" data-dropdown-button>Information</button>
-              <div class="dropdown-menu information-grid">
-                <div>
-                  <div class="dropdown-heading">Free Tutorials</div>
-                  <div class="dropdown-links">
-                    <a href="#" class="link">All</a>
-                    <a href="#" class="link">Latest</a>
-                    <a href="#" class="link">Popular</a>
-                  </div>
+              <button class="link" data-dropdown-button>Effects</button>
+
+              <div class="dropdown-menu">
+                <div id="rain-volume-adjust-div">
+                  <button id="rain-button">rain</button>
+                  <span id="rain-volume-input-title">Volume:</span>
+                  <input
+                    type="range"
+                    id="rain-volume-input"
+                    value="5"
+                    min="1"
+                    max="10"
+                    step="1"
+                  >
+                  <output id="rain-volume-output">5</output>
+                </div> <br>
+        
+                <div id="playback-rate-adjust-div">
+                  <span id="playback-rate-input-title">Playback Rate:</span>
+                  <input
+                    type="range"
+                    id="playback-rate-input"
+                    value="1"
+                    min="0.5"
+                    max="2"
+                    step="0.01"
+                  />
+                  <output id="playback-rate-output">1</output>
                 </div>
+            
                 <div>
-                  <div class="dropdown-heading">Courses</div>
-                  <div class="dropdown-links">
-                    <a href="#" class="link">JavaScript</a>
-                    <a href="#" class="link">CSS</a>
-                    <a href="#" class="link">React</a>
-                  </div>
+                  <button id="bathroom-door">Enter Bathroom</button>
                 </div>
+            
                 <div>
-                  <div class="dropdown-heading">Blog</div>
-                  <div class="dropdown-links">
-                    <a href="#" class="link">All</a>
-                    <a href="#" class="link">Latest</a>
-                    <a href="#" class="link">Popular</a>
-                  </div>
+                  <button id="dynamicLights">Disable dynamic lights</button>
                 </div>
+      
                 <div>
-                  <div class="dropdown-heading">Other</div>
-                  <div class="dropdown-links">
-                    <a href="#" class="link">Twitter</a>
-                    <a href="#" class="link">Newsletter</a>
-                    <a href="#" class="link">Discord</a>
-                  </div>
+                  <button id="disableLights">Disable lights</button>
+                </div>
+      
+                <div>
+                  <button id="changeBackground">White Background</button>
                 </div>
               </div>
             </div>
+
+
             <div class="dropdown" data-dropdown>
               <button class="link" data-dropdown-button>Songs</button>
               
