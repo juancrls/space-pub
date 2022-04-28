@@ -6,173 +6,190 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>space pub</title>
 
-    <link rel="stylesheet" text="text/css" href="../css/main-room.css"/>
-    <link rel="stylesheet" text="text/css" href="../css/rain.css"/>
-    <link rel="stylesheet" text="text/css" href="../css/drop-down.css"/>
+    <link rel="stylesheet" text="text/css" href="../css/main-room.css" />
+    <link rel="stylesheet" text="text/css" href="../css/rain.css" />
+    <link rel="stylesheet" text="text/css" href="../css/drop-down.css" />
 
-    <style>
-      .options-menu {
-        width: 400px;
-        height: 200px;
-
-        color: white;
-        z-index: 99;
-      }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  
+
   <body>
     <main class="full-viewport relative">
       <video
-      loop="loop"
-      autoplay="autoplay"
-      playsinline=""
-      muted="muted"
-      class="full-viewport object-cover absolute"
-      src="../videos/stars-background.mp4"
+        loop="loop"
+        autoplay="autoplay"
+        playsinline=""
+        muted="muted"
+        class="full-viewport object-cover absolute"
+        src="../videos/stars-background.mp4"
       ></video>
 
-      <div class="full-viewport object-cover absolute" id="rain-container"></div>
-      
+      <div
+        class="full-viewport object-cover absolute"
+        id="rain-container"
+      ></div>
+
       <div class="full-viewport object-cover relative">
-        <img id="backgroundImage" class="full-viewport object-cover absolute" src="../images/cafe-night.png" />
+        <img
+          id="backgroundImage"
+          class="full-viewport object-cover absolute"
+          src="../images/cafe-night.png"
+        />
 
-        <svg id="bathroom-light" class="full-viewport object-cover absolute remove-white-background" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg" style="
-        display: none;
-        background: 
-        linear-gradient(73deg, transparent 100%, white 100%), 
-        linear-gradient(54deg, transparent 100%, white 100%),
-        linear-gradient(3deg, transparent 30% , rgb(95, 36, 95), rgb(138, 0, 56));">
+        <svg
+          id="bathroom-light"
+          class="full-viewport object-cover absolute remove-white-background"
+          width="100vw"
+          height="100vh"
+          xmlns="http://www.w3.org/2000/svg"
+          style="
+            display: none;
+            background: linear-gradient(73deg, transparent 100%, white 100%),
+              linear-gradient(54deg, transparent 100%, white 100%),
+              linear-gradient(
+                3deg,
+                transparent 30%,
+                rgb(95, 36, 95),
+                rgb(138, 0, 56)
+              );
+          "
+        >
           <rect width="100vw" height="100vh" x="0" y="0" fill="transparent" />
         </svg>
-        
-        <svg id="svg-left-light" class="led-light full-viewport object-cover absolute remove-white-background" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg" style="
-        background: 
-        linear-gradient(70deg, transparent 41.75%, white 34.5%), 
-        linear-gradient(15deg, transparent 63.5%, white 5%),
-        linear-gradient(360deg, transparent 32% , rgb(95, 36, 95), rgb(138, 0, 56));">
+
+        <svg
+          id="svg-left-light"
+          class="led-light full-viewport object-cover absolute remove-white-background"
+          width="100vw"
+          height="100vh"
+          xmlns="http://www.w3.org/2000/svg"
+          style="
+            background: linear-gradient(70deg, transparent 41.75%, white 34.5%),
+              linear-gradient(15deg, transparent 63.5%, white 5%),
+              linear-gradient(
+                360deg,
+                transparent 32%,
+                rgb(95, 36, 95),
+                rgb(138, 0, 56)
+              );
+          "
+        >
           <rect width="100vw" height="100vh" x="0" y="0" fill="transparent" />
         </svg>
 
-        <svg id="svg-right-light" class="led-light full-viewport object-cover absolute remove-white-background" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg" style="
-        background: 
-        linear-gradient(-53.1deg, transparent 60%, white 20.5%), 
-        linear-gradient(-41deg, transparent 49.6%, white 0%),
-        linear-gradient(15deg, transparent 42% , rgb(95, 36, 95), rgb(138, 0, 56));">
+        <svg
+          id="svg-right-light"
+          class="led-light full-viewport object-cover absolute remove-white-background"
+          width="100vw"
+          height="100vh"
+          xmlns="http://www.w3.org/2000/svg"
+          style="
+            background: linear-gradient(-53.1deg, transparent 60%, white 20.5%),
+              linear-gradient(-41deg, transparent 49.6%, white 0%),
+              linear-gradient(
+                15deg,
+                transparent 42%,
+                rgb(95, 36, 95),
+                rgb(138, 0, 56)
+              );
+          "
+        >
           <rect width="100vw" height="100vh" x="0" y="0" fill="transparent" />
         </svg>
 
-        
-        <div id="bathroom-transition" class="full-viewport object-cover absolute"></div> <!-- bathroom transition element -->
-        <div class="absolute options-menu" id="color-beat">
-
-
-
-          <div class="header">
-            <div class="dropdown" data-dropdown>
-              <button class="link" data-dropdown-button>Effects</button>
-
-              <div class="dropdown-menu">
-                <div id="rain-volume-adjust-div">
-                  <button id="rain-button">rain</button>
-                  <span id="rain-volume-input-title">Volume:</span>
-                  <input
-                    type="range"
-                    id="rain-volume-input"
-                    value="5"
-                    min="1"
-                    max="10"
-                    step="1"
-                  >
-                  <output id="rain-volume-output">5</output>
-                </div> <br>
-        
-                <div id="playback-rate-adjust-div">
-                  <span id="playback-rate-input-title">Playback Rate:</span>
-                  <input
-                    type="range"
-                    id="playback-rate-input"
-                    value="1"
-                    min="0.5"
-                    max="2"
-                    step="0.01"
-                  />
-                  <output id="playback-rate-output">1</output>
-                </div>
-            
-                <div>
-                  <button id="bathroom-door">Enter Bathroom</button>
-                </div>
-            
-                <div>
-                  <button id="dynamicLights">Disable dynamic lights</button>
-                </div>
-      
-                <div>
-                  <button id="disableLights">Disable lights</button>
-                </div>
-      
-                <div>
-                  <button id="changeBackground">White Background</button>
-                </div>
-              </div>
+        <div
+          id="bathroom-transition"
+          class="full-viewport object-cover absolute"
+        ></div>
+        <!-- bathroom transition element -->
+        <div class="absolute" id="color-beat">
+          <div class="effects-menu">
+            <div id="rain-volume-adjust-div">
+              <button id="rain-button">rain</button>
+              <span id="rain-volume-input-title">rain volume:</span>
+              <input
+                type="range"
+                id="rain-volume-input"
+                value="5"
+                min="1"
+                max="10"
+                step="1"
+              />
+              <output id="rain-volume-output">5</output>
             </div>
-
-
-            <div class="dropdown" data-dropdown>
-              <button class="link" data-dropdown-button>Songs</button>
-              
-              <div class="dropdown-menu">
-
-                <ul class="songs">
-                  <li>
-                    <i class="start-song fa-solid fa-play" ></i>
-                    <span id="good-day">Ice Cube - It was a good day</span>
-                    <input type="range" value="50" min="0" max="100" step="1">
-                  </li>
-
-                  <li>
-                    <i class="start-song fa-solid fa-play" ></i>
-                    <span id="nikes">Frank Ocean - Nikes</span>
-                    <input type="range" value="50" min="0" max="100" step="1">
-                  </li>
-
-                  <li>
-                    <i class="start-song fa-solid fa-play" ></i>
-                    <span id="nadabom">Costa Gold - N.A.D.A.B.O.M</span>
-                    <input type="range" value="50" min="0" max="100" step="1">
-                  </li>
-
-                  <li>
-                    <i class="start-song fa-solid fa-play" ></i>
-                    <span id="zap">zap - tests</span>
-                    <input type="range" value="50" min="0" max="100" step="1">
-                  </li>
-
-                  <li>
-                    <i class="start-song fa-solid fa-play" ></i>
-                    <span id="qmtavala">Costa Gold - Quem Tava Lá?</span>
-                    <input type="range" value="50" min="0" max="100" step="1">
-                  </li>
-
-                  <li>
-                    <i class="start-song fa-solid fa-play" ></i>
-                    <span id="coffe-bean">Travis Scott - COFFE BEAN (bass boosted)</span>
-                    <input type="range" value="50" min="0" max="100" step="1">
-                  </li>
-                </ul>
-                  
-              </div>
+            <br />
+            <div id="playback-rate-adjust-div">
+              <span id="playback-rate-input-title">Playback Rate:</span>
+              <input
+                type="range"
+                id="playback-rate-input"
+                value="1"
+                min="0.5"
+                max="2"
+                step="0.01"
+              />
+              <output id="playback-rate-output">1</output>
             </div>
+  
+            <div>
+              <button id="bathroom-door">Enter Bathroom</button>
+            </div>
+  
+            <div>
+              <button id="dynamicLights">Disable dynamic lights</button>
+            </div>
+  
+            <div>
+              <button id="disableLights">Disable lights</button>
+            </div>
+  
+            <div>
+              <button id="changeBackground">White Background</button>
+            </div>
+          </div>
+
+          <div class="songs-menu">
+            <ul class="songs">
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="good-day">Ice Cube - It was a good day</span>
+              </li>
+  
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="nikes">Frank Ocean - Nikes</span>
+              </li>
+  
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="nadabom">Costa Gold - N.A.D.A.B.O.M</span>
+              </li>
+  
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="qmtavala">Costa Gold - Quem Tava Lá?</span>
+              </li>
+  
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="coffe-bean">Travis Scott - COFFE BEAN (bass boosted)</span>
+              </li>
+            </ul>
           </div>
           
         </div>
-
-
       </div>
     </main>
-    
-    <script src="https://kit.fontawesome.com/876aed742f.js" crossorigin="anonymous"></script>
+
+    <script
+      src="https://kit.fontawesome.com/876aed742f.js"
+      crossorigin="anonymous"
+    ></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.5.44/Tone.js"></script>
     <script src="../js/rain.js"></script>

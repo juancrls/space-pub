@@ -3,20 +3,24 @@ body {
 }
 
 .header {
-  background-color: #F3F3F3;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: baseline;
   padding: .5rem;
   gap: 1rem;
 }
 
 .link {
+  font-family: 'Ubuntu', sans-serif;
+  text-shadow: 0 0 5px #000000;
+
+  margin-right: 5rem;
+
+  text-transform: uppercase;
   background: none;
   border: none;
   text-decoration: none;
-  color: #777;
-  font-family: inherit;
+  color: #cacaca;
   font-size: inherit;
   cursor: pointer;
   padding: 0;
@@ -24,7 +28,7 @@ body {
 
 .dropdown.active > .link,
 .link:hover {
-  color: black;
+  color: #ffffff;
 }
 
 .dropdown {

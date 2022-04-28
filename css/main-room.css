@@ -92,3 +92,7 @@ button:focus {
   transition: 0.1s;
   transform: translateY(-0.1em) translateX(-0.05em);
 }
+
+#color-beat {
+  color: white;
+}
