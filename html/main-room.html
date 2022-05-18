@@ -9,6 +9,16 @@
     <link rel="stylesheet" text="text/css" href="../css/main-room.css" />
     <link rel="stylesheet" text="text/css" href="../css/rain.css" />
     <link rel="stylesheet" text="text/css" href="../css/drop-down.css" />
+<<<<<<< HEAD
+=======
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap"
+      rel="stylesheet"
+    />
+>>>>>>> 643a053bd736ea205fd4d7e0cdd580c2a6030383
   </head>
 
   <body>
@@ -100,6 +110,7 @@
           class="full-viewport object-cover absolute"
         ></div>
         <!-- bathroom transition element -->
+<<<<<<< HEAD
 
         <div class="absolute options-menu" id="color-beat">
           <div class="header">
@@ -201,7 +212,81 @@
                 </div>
               </div>
             </div>
+=======
+        <div class="absolute" id="color-beat">
+          <div class="effects-menu">
+            <div id="rain-volume-adjust-div">
+              <button id="rain-button">rain</button>
+              <span id="rain-volume-input-title">rain volume:</span>
+              <input
+                type="range"
+                id="rain-volume-input"
+                value="5"
+                min="1"
+                max="10"
+                step="1"
+              />
+              <output id="rain-volume-output">5</output>
             </div>
+            <br />
+            <div id="playback-rate-adjust-div">
+              <span id="playback-rate-input-title">Playback Rate:</span>
+              <input
+                type="range"
+                id="playback-rate-input"
+                value="1"
+                min="0.5"
+                max="2"
+                step="0.01"
+              />
+              <output id="playback-rate-output">1</output>
+>>>>>>> 643a053bd736ea205fd4d7e0cdd580c2a6030383
+            </div>
+  
+            <div>
+              <button id="bathroom-door">Enter Bathroom</button>
+            </div>
+  
+            <div>
+              <button id="dynamicLights">Disable dynamic lights</button>
+            </div>
+  
+            <div>
+              <button id="disableLights">Disable lights</button>
+            </div>
+  
+            <div>
+              <button id="changeBackground">White Background</button>
+            </div>
+          </div>
+
+          <div class="songs-menu">
+            <ul class="songs">
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="good-day">Ice Cube - It was a good day</span>
+              </li>
+  
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="nikes">Frank Ocean - Nikes</span>
+              </li>
+  
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="nadabom">Costa Gold - N.A.D.A.B.O.M</span>
+              </li>
+  
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="qmtavala">Costa Gold - Quem Tava Lá?</span>
+              </li>
+  
+              <li>
+                <i class="start-song fa-solid fa-play"></i>
+                <span id="coffe-bean">Travis Scott - COFFE BEAN (bass boosted)</span>
+              </li>
+            </ul>
           </div>
 
         </div>
