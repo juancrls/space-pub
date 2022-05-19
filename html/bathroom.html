@@ -5,30 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>test</title>
-    <link rel="stylesheet" type="text/css" href="../css/lightTest.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bathroom.css"/>
   </head>
   <body>
-    <main class="full-viewport relative">
-      <div class="full-viewport object-cover relative">
-        <img class="full-viewport object-cover absolute" src="https://i.postimg.cc/j2CWcLQN/cafe-night.png" />
-
-        <!-- works good - ideal positioning but can't have interactivity with js -->
-        <!-- <img class="full-viewport object-cover absolute remove-white-background" src="../svg/left-light.svg" /> -->
-
-        <!-- doesn't work (object tag) - can interact with js but positioning doesn't follow the object-fit -->
-        <!-- <object class="full-viewport object-cover absolute remove-white-background" data="../svg/left-light.svg" type="image/svg+xml"></object> -->
-        <!-- <object class="full-viewport absolute remove-white-background" data="../svg/right-light.svg" type="image/svg+xml"></object> -->
-
-        <!-- doesn't work (svg with preserveAspectRatio) - can interact with js but positioning doesn't follow the object-fit -->
-        <!-- <svg class="full-viewport absolute remove-white-background" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="
-        background: 
-        linear-gradient(76deg, transparent 40.25%, white 40.5%), 
-        linear-gradient(14.7deg, transparent 62.3%, white 0%),
-        linear-gradient(-5deg, transparent 32% , rgb(50, 221, 137), rgb(0, 255, 255));">
-          <rect x="0" y="0" fill="transparent" />
-        </svg> -->
+    <!-- <div class="container">
+      <div class="top-div"></div>
+      <div class="mid-div">
+        <div class="content">auasdjiasdjioadjiso</div>
       </div>
-    </main>
+      <div class="bottom-div"></div>
+    </div> -->
+
+    <div class="container">
+      <div id="top-right-parallelogram"></div>
+      <div id="top-left-parallelogram"></div>
+
+      <div id="bottom-right-parallelogram"></div>
+      <div id="bottom-left-parallelogram"></div>
+    </div>
 
   </body>
 </html>
