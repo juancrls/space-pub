@@ -316,14 +316,15 @@ const draw = () => {
   let avg = (sum / dataArray.length) || 0;
 
 
-  // let d = (player.detune / 100) * 7; // percentage needed to increase avg calc
+  let d = (player.detune / 100) * 7; // percentage needed to increase avg calc
   let max = Math.max(...dataArray) + 100
-    // if(player.detune > 0) {
-    //   max += (max/100) * d
-    // }
+  if (player.detune > 0) {
+    max += (max / 100) * d
+  }
 
   if (max > 69) { // (max > avg * 2)
     console.log('beat')
+
     if (!isRunning) colorChanger();
   }
 }

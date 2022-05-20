@@ -1,3 +1,39 @@
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: white;
+  outline: none;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+  /* Fully shown on mouse-over */
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 15px;
+  background: black;
+  cursor: pointer;
+  border-radius: 500px;
+  border: 1px solid white;
+}
+
+::-webkit-scrollbar {
+  background: rgba(0, 0, 0, 0.431);
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 500px;
+  background: rgb(0, 0, 0);
+}
+
 .bg-transition {
   transition: 0.5s ease-in-out;
 }
@@ -48,7 +84,7 @@ button:focus {
 }
 
 .main-content {
-  overflow: hidden;
+  overflow-x: hidden;
   overflow-y: scroll;
   height: 100%;
   width: 100%;

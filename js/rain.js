@@ -20,12 +20,12 @@ const rainPlayer = new Tone.Player({
 
 document.querySelector('#rain-volume-input').addEventListener('input', (e) => {
   rainVolumeValue = e.currentTarget.value;
-  if(isRaining) {
+  if (isRaining) {
     let isDecreasing = oldRainVolumeValue > rainVolumeValue;
-    if(isDecreasing) {
+    if (isDecreasing) {
       stopRain(counter / 2);
     } else {
-      if(rainDrops.children.length < 200) {
+      if (rainDrops.children.length < 200) {
         counter = rainVolumeValue * 5
         setRainDrops(dropElement);
       }
@@ -33,8 +33,7 @@ document.querySelector('#rain-volume-input').addEventListener('input', (e) => {
   }
 
   rainPlayer.volume.value = rainVolumeValue;
-  
-  document.querySelector('#rain-volume-output').value = rainVolumeValue;
+
   oldRainVolumeValue = rainVolumeValue;
 }, false)
 
@@ -42,7 +41,6 @@ document.getElementById("rain-button").addEventListener("click", () => {
   if (!isRaining) {
 
     rainPlayer.volume.value = 5;
-    document.querySelector('#rain-volume-output').value = 5;
     document.querySelector('#rain-volume-input').value = 5;
 
     rainPlayer.start();
@@ -52,12 +50,12 @@ document.getElementById("rain-button").addEventListener("click", () => {
 });
 
 async function stopRain(dropQuantityToRemove = rainDrops.children.length, fadeOut = 10) {
-  if(isRaining && dropQuantityToRemove > rainDrops.children.length) {
+  if (isRaining && dropQuantityToRemove > rainDrops.children.length) {
     return; // avoid the function to run when there's no more rain drops
   }
 
   for (var i = 0; i < dropQuantityToRemove; i++) {
-    if(!rainDrops.lastElementChild) return;
+    if (!rainDrops.lastElementChild) return;
 
     rainDrops.removeChild(rainDrops.lastElementChild);
     await sleep(fadeOut);
