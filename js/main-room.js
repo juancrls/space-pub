@@ -53,19 +53,29 @@ let changeBackgroundButton = document.querySelector('#changeBackground');
 let menuLateralButton = document.querySelector('.lateral-menu-button');
 
 changeBackgroundButton.addEventListener('click', () => {
+  let darkbg, whitebg;
+
+  if (inBathroom) {
+    darkbg = "../images/bathroom.jpg"
+    whitebg = "../images/bathroom.jpg" // @ MUST BE DIFFERENT AND PNG 
+  } else {
+    darkbg = "../images/cafe-night.png"
+    whitebg = "../images/cafe.png"
+  }
+
   if (currentBackground == 'dark') {
     lightsOnSound.start();
 
     menuLateralButton.style.filter = "invert(0)";
     currentBackground = 'white'
     changeBackgroundButton.innerHTML = "Dark Background"
-    backgroundImage.src = "../images/cafe.png"
+    backgroundImage.src = whitebg;
   } else {
     lightsOffSound.start();
     menuLateralButton.style.filter = "invert(1)";
     currentBackground = 'dark'
     changeBackgroundButton.innerHTML = "White Background"
-    backgroundImage.src = "../images/cafe-night.png"
+    backgroundImage.src = darkbg
   }
 })
 

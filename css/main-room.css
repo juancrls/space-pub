@@ -25,9 +25,9 @@ button:focus {
 }
 
 .interaction-menu-container {
-  width: 37rem;
+  width: 39rem;
   height: 100%;
-  left: -37rem;
+  left: -39rem;
   transition: 2s;
   padding: 3% 0;
   display: flex;
