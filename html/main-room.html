@@ -73,8 +73,14 @@
       <div id="bathroom-transition" class="full-viewport object-cover absolute"></div>
 
       <div class="absolute interaction-menu-container active" id="color-beat">
-        <div class="interaction-menu">
-          <div class="main-content-container">
+        <div class="lateral-menu-button">
+          <img class="button-img" src="../images/seta.png">
+        </div>
+
+        <div class="interaction-menu flex flex-column align-center">
+          <h1 class="menu-title">Menu</h1>
+          <div class="main-content flex flex-column align-center">
+
             <div class="effects-container flex flex-column">
               <h1>Effects</h1>
               <div>
@@ -84,7 +90,6 @@
                   <input type="range" id="rain-volume-input" value="5" min="1" max="10" step="1" />
                   <output id="rain-volume-output">5</output>
                 </div>
-                <br />
 
                 <div>
                   <button id="bathroom-door">Enter Bathroom</button>
@@ -113,50 +118,37 @@
                 <li>
                   <i class="start-song fa-solid fa-play"></i>
                   <span id="good-day">Ice Cube - It was a good day</span>
-                  <input type="range" value="50" min="0" max="100" step="1" />
                 </li>
 
                 <li>
                   <i class="start-song fa-solid fa-play"></i>
                   <span id="nikes">Frank Ocean - Nikes</span>
-                  <input type="range" value="50" min="0" max="100" step="1" />
                 </li>
 
                 <li>
                   <i class="start-song fa-solid fa-play"></i>
                   <span id="nadabom">Costa Gold - N.A.D.A.B.O.M</span>
-                  <input type="range" value="50" min="0" max="100" step="1" />
-                </li>
-
-                <li>
-                  <i class="start-song fa-solid fa-play"></i>
-                  <span id="zap">zap - tests</span>
-                  <input type="range" value="50" min="0" max="100" step="1" />
                 </li>
 
                 <li>
                   <i class="start-song fa-solid fa-play"></i>
                   <span id="qmtavala">Costa Gold - Quem Tava Lá?</span>
-                  <input type="range" value="50" min="0" max="100" step="1" />
                 </li>
 
                 <li>
                   <i class="start-song fa-solid fa-play"></i>
-                  <span id="coffe-bean">Travis Scott - COFFE BEAN (bass boosted)</span
-										>
-										<input type="range" value="50" min="0" max="100" step="1" />
-									</li>
-								</ul>
-						</div>
+                  <span id="coffe-bean">Travis Scott - COFFE BEAN (bass boosted)</span>
+                </li>
+              </ul>
+            </div>
 
+            <div class="add-song">
+              <span>Add your song</span>
+            </div>
+
+            </div?>
           </div>
         </div>
-
-        <div class="lateral-menu-button">
-          <img class="button-img" src="../images/seta.png">
-        </div>
-
-      </div>
   </main>
 
   <script src="https://kit.fontawesome.com/876aed742f.js" crossorigin="anonymous"></script>
