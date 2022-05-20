@@ -12,14 +12,20 @@ let player = new Tone.Player({
   "playbackRate": document.querySelector('#playback-rate-output').value,
 }).toDestination()
 
-
-
-
 let doorOpeningSound = new Tone.Player("../audios/door-opening.mp3").toDestination();
 let doorClosingSound = new Tone.Player("../audios/door-closing.mp3").toDestination();
 
+let lightsOnSound = new Tone.Player("../audios/lightswitchon.mp3").toDestination();
+let lightsOffSound = new Tone.Player("../audios/lightswitchoff.mp3").toDestination();
+
+let switchOnSound = new Tone.Player({
+  url: "../audios/door-closing.mp3",
+
+}).toDestination();
 
 let color = 0;
+// interactionMenu
+let interactionMenu = document.querySelector(".interaction-menu");
 
 let dynamicLights = true;
 let dynamicLightsButton = document.querySelector('#dynamicLights');
@@ -44,12 +50,19 @@ let currentBackground = 'dark';
 let backgroundImage = document.querySelector('#backgroundImage');
 let changeBackgroundButton = document.querySelector('#changeBackground');
 
+let menuLateralButton = document.querySelector('.lateral-menu-button');
+
 changeBackgroundButton.addEventListener('click', () => {
   if (currentBackground == 'dark') {
+    lightsOnSound.start();
+
+    menuLateralButton.style.filter = "invert(0)";
     currentBackground = 'white'
     changeBackgroundButton.innerHTML = "Dark Background"
     backgroundImage.src = "../images/cafe.png"
   } else {
+    lightsOffSound.start();
+    menuLateralButton.style.filter = "invert(1)";
     currentBackground = 'dark'
     changeBackgroundButton.innerHTML = "White Background"
     backgroundImage.src = "../images/cafe-night.png"
@@ -218,6 +231,7 @@ disableLightsButton.addEventListener('click', () => {
   lights = !lights;
 
   if (!lights) {
+    interactionMenu.style.border = `5px solid black`
     disableLightsButton.innerHTML = 'Enable lights';
 
     leftLightDisplay = 'none';
@@ -247,11 +261,11 @@ player.connect(analyser)
 
 const colors = [
   [
-    [135, 55, 135],
+    [239, 0, 0],
     [95, 0, 119]
   ],
   [
-    [95, 70, 36],
+    [255, 136, 0],
     [138, 110, 0]
   ],
   [
@@ -259,11 +273,26 @@ const colors = [
     [17, 39, 143]
   ],
   [
-    [95, 36, 95],
+    [255, 0, 255],
     [138, 0, 56]
   ],
   [
     [0, 255, 126],
+    [0, 255, 41]
+  ],
+
+  [
+    [51, 0, 255],
+    [0, 255, 41]
+  ],
+
+  [
+    [212, 255, 0],
+    [0, 255, 41]
+  ],
+
+  [
+    [0, 255, 242],
     [0, 255, 41]
   ],
 ]
@@ -291,13 +320,12 @@ const draw = () => {
 
 let isRunning = false;
 let b = 0;
-
+let nextB;
 const changeWithTime = () => {
   function delay() {
     setTimeout(function() {
-      b = 0; // resolve o bug dele botar uma cor ao mexer no input com o disable, mas fixa na cor vermelha
       if (rAFIsPaused || !dynamicLights) return; // talvez nem precise desse if
-      let nextB = b
+      nextB = b
       while (nextB == b) nextB = Math.floor(Math.random() * 5); // to avoid the same color twice
       b = nextB
       if (!rAFIsPaused) delay();
@@ -307,6 +335,7 @@ const changeWithTime = () => {
 }
 
 const colorChanger = () => {
+
   isRunning = true;
 
   changeLightsWithPitch();
@@ -323,12 +352,11 @@ const colorChanger = () => {
   delay();
 }
 
-let interactionMenu = document.querySelector(".interaction-menu");
+
 const changeLightsWithPitch = () => {
+  if (!lights || player.state == "stopped") return;
+
   interactionMenu.style.border = `5px solid rgb(${colors[b][0][0] - color}, ${colors[b][0][1] - color}, ${colors[b][0][2] - color})`
-
-  if (!lights) return;
-
   if (inBathroom) {
     bathroomLight.style = ` background: 
     linear-gradient(73deg, transparent 100%, white 100%), 
