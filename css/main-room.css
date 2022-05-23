@@ -108,6 +108,17 @@ h1 {
   color: #0c0d15;
 }
 
+.songs-volume {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.song-volume-slider {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
 .songs {
   height: 6rem;
   overflow-y: scroll;

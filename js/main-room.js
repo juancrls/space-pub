@@ -6,11 +6,13 @@ let reverb = new Tone.Reverb({
 
 let player = new Tone.Player({
   "mute": false,
-  "volume": 0,
+  "volume": -10,
   "reverse": false,
   "fadeOut": 0.5,
   "playbackRate": document.querySelector('#playback-rate-output').value,
 }).toDestination()
+
+document.querySelector('.song-volume-slider').addEventListener('input', (e) => player.volume.value = Number(e.currentTarget.value));
 
 let doorOpeningSound = new Tone.Player("../audios/door-opening.mp3").toDestination();
 let doorClosingSound = new Tone.Player("../audios/door-closing.mp3").toDestination();
@@ -46,34 +48,39 @@ dynamicLightsButton.addEventListener('click', () => {
   }
 })
 
-let currentBackground = 'dark';
+let darkbg, whitebg, bgIsWhite;
+const getBg = () => {
+  if (inBathroom) {
+    darkbg = "../images/bathroom.jpg"
+    whitebg = "../images/cafe.png" // @ MUST BE DIFFERENT AND PNG 
+  } else {
+    darkbg = "../images/cafe-night.png"
+    whitebg = "../images/cafe.png"
+  }
+}
+
+let currentBackground = "../images/cafe-night.png";
+
 let backgroundImage = document.querySelector('#backgroundImage');
 let changeBackgroundButton = document.querySelector('#changeBackground');
 
 let menuLateralButton = document.querySelector('.lateral-menu-button');
 
 changeBackgroundButton.addEventListener('click', () => {
-  let darkbg, whitebg;
+  getBg();
 
-  if (inBathroom) {
-    darkbg = "../images/bathroom.jpg"
-    whitebg = "../images/bathroom.jpg" // @ MUST BE DIFFERENT AND PNG 
-  } else {
-    darkbg = "../images/cafe-night.png"
-    whitebg = "../images/cafe.png"
-  }
-
-  if (currentBackground == 'dark') {
+  if (currentBackground == darkbg) {
     lightsOnSound.start();
 
     menuLateralButton.style.filter = "invert(0)";
-    currentBackground = 'white'
+    currentBackground = whitebg;
     changeBackgroundButton.innerHTML = "Dark Background"
     backgroundImage.src = whitebg;
+    bgIsWhite = true;
   } else {
     lightsOffSound.start();
     menuLateralButton.style.filter = "invert(1)";
-    currentBackground = 'dark'
+    currentBackground = darkbg;
     changeBackgroundButton.innerHTML = "White Background"
     backgroundImage.src = darkbg
   }
@@ -171,6 +178,7 @@ bathroomButton.addEventListener('click', () => {
   if (!inBathroom) {
     console.log('...entering');
 
+
     bathroomTransition.classList.add('elementToFadeInAndOut');
 
     setTimeout(() => {
@@ -178,7 +186,12 @@ bathroomButton.addEventListener('click', () => {
     }, 500);
 
     setTimeout(() => {
-      backgroundImage.src = "../images/bathroom.jpg"
+      inBathroom = true;
+
+      getBg();
+      if (bgIsWhite) currentBackground = whitebg;
+
+      backgroundImage.src = currentBackground;
 
       if (lights) {
         bathroomLightDisplay = 'block';
@@ -190,7 +203,6 @@ bathroomButton.addEventListener('click', () => {
         bathroomLight.style.display = bathroomLightDisplay;
       }
 
-      inBathroom = true;
 
       player.connect(reverb);
     }, 1500);
@@ -210,7 +222,12 @@ bathroomButton.addEventListener('click', () => {
     }, 500);
 
     setTimeout(() => {
-      backgroundImage.src = "../images/cafe-night.png"
+      inBathroom = false;
+
+      getBg();
+      if (bgIsWhite) currentBackground = whitebg;
+
+      backgroundImage.src = currentBackground
 
       if (lights) {
         bathroomLightDisplay = 'none';
@@ -221,7 +238,6 @@ bathroomButton.addEventListener('click', () => {
         rightLight.style.display = rightLightDisplay;
         bathroomLight.style.display = bathroomLightDisplay;
       }
-      inBathroom = false;
 
       player.disconnect(reverb);
     }, 1500);
