@@ -1,3 +1,5 @@
+import { customSongPlayer } from './add-song.js'
+
 let reverb = new Tone.Reverb({
   "wet": 1,
   "decay": 2,
@@ -19,11 +21,6 @@ let doorClosingSound = new Tone.Player("../audios/door-closing.mp3").toDestinati
 
 let lightsOnSound = new Tone.Player("../audios/lightswitchon.mp3").toDestination();
 let lightsOffSound = new Tone.Player("../audios/lightswitchoff.mp3").toDestination();
-
-let switchOnSound = new Tone.Player({
-  url: "../audios/door-closing.mp3",
-
-}).toDestination();
 
 let color = 0;
 // interactionMenu
@@ -51,8 +48,8 @@ dynamicLightsButton.addEventListener('click', () => {
 let darkbg, whitebg, bgIsWhite;
 const getBg = () => {
   if (inBathroom) {
-    darkbg = "../images/bathroom.jpg"
-    whitebg = "../images/cafe.png" // @ MUST BE DIFFERENT AND PNG 
+    darkbg = "../images/bathroom-night.jpg"
+    whitebg = "../images/bathroom.jpg"
   } else {
     darkbg = "../images/cafe-night.png"
     whitebg = "../images/cafe.png"
@@ -91,55 +88,83 @@ let rAFIsPaused = true;
 
 let currentSong;
 
-playButton.forEach(song => {
-  song.addEventListener('click', async() => {
-    let mp3 = `../audios/${song.nextElementSibling.id}.mp3`
+export const loadSongs = (buff) => { // that function was made to load the custom song into this playButton foreach
+  playButton.forEach(async(song) => {
 
-    if (player.state == 'stopped') {
-      rAFIsPaused = false;
-      changeWithTime()
-      draw();
+    song.addEventListener('click', async() => {
+      if (song.classList[0] == 'custom-song') {
+        if (buff) {
+          console.log('bufado', buff)
+          player = new Tone.Player({
+            "url": buff,
+            "mute": false,
+            "volume": -10,
+            "reverse": false,
+            "fadeOut": 0.5,
+            "playbackRate": document.querySelector('#playback-rate-output').value,
+          }).toDestination()
 
-      song.classList.remove('fa-play');
-      song.classList.add('fa-pause');
+          player.start();
 
-      currentSong = song;
-      await player.load(mp3);
+        }
+      } else {
 
-      Tone.start();
-      player.start();
+        let mp3 = `../audios/music/${song.nextElementSibling.id}.mp3`
 
-    } else {
-      if (song == currentSong) { // if the pause event is for the current song
-        rAFIsPaused = true;
+        if (player.state == 'stopped') {
+          rAFIsPaused = false;
+          changeWithTime()
+          draw();
 
-        player.connect(reverb)
-        player.stop()
-        song.classList.remove('fa-pause');
-        song.classList.add('fa-play');
+          song.classList.remove('fa-play');
+          song.classList.add('fa-pause');
 
-        await sleep(1300);
-        player.disconnect(reverb)
-      } else { // if isn't, will reset the icons and play the requested song
-        currentSong.classList.remove('fa-pause');
-        currentSong.classList.add('fa-play');
+          currentSong = song;
+          await player.load(mp3);
 
-        song.classList.remove('fa-play');
-        song.classList.add('fa-pause');
+          Tone.start();
+          player.start();
 
-        mp3 = `../audios/${song.nextElementSibling.id}.mp3`
-        player.stop();
-        player.connect(reverb)
+        } else {
+          if (song == currentSong) { // if the pause event is for the current song
+            rAFIsPaused = true;
 
-        await player.load(mp3);
-        player.disconnect(reverb)
-        player.start()
+            player.connect(reverb)
+            player.stop()
+            song.classList.remove('fa-pause');
+            song.classList.add('fa-play');
 
-        currentSong = song;
+            await sleep(1300);
+            player.disconnect(reverb)
+              // @@ talvez esteja inutilizada pela falta do transport
+          } else { // if isn't, will reset the icons and play the requested song
+
+            currentSong.classList.remove('fa-pause');
+            currentSong.classList.add('fa-play');
+
+            song.classList.remove('fa-play');
+            song.classList.add('fa-pause');
+
+            mp3 = `../audios/music/${song.nextElementSibling.id}.mp3`
+            player.stop();
+            player.connect(reverb)
+
+            await player.load(mp3);
+            player.disconnect(reverb)
+            player.start()
+
+            currentSong = song;
+          }
+        }
       }
-    }
+
+
+    })
   })
-})
+
+}
+
+loadSongs();
 
 let playbackRateValue = 1;
 let inputDetuneValue = 0; // that var is created to avoid activateDynamicPitch function to overlay the input value
@@ -338,7 +363,8 @@ const draw = () => {
     max += (max / 100) * d
   }
 
-  if (max > 69) { // (max > avg * 2)
+  // if (max > 69) {
+  if ((max > avg * 2)) {
     console.log('beat')
 
     if (!isRunning) colorChanger();

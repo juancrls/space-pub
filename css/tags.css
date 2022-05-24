@@ -44,3 +44,11 @@
 ul {
   list-style-type: none;
 }
+
+.block {
+  display: block;
+}
+
+.none {
+  display: none;
+}

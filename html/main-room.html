@@ -113,7 +113,7 @@
 
             <div class="songs-container">
               <div class="songs-volume">
-                <h1>Songs</h1>
+                <h1>House Songs</h1>
                 <input type="range" class="slider song-volume-slider" id="rain-volume-input" value="-10" min="-30" max="10" step="0.01" />
               </div>
 
@@ -143,12 +143,18 @@
                   <span id="coffe-bean">Travis Scott - COFFE BEAN (bass boosted)</span>
                 </li>
               </ul>
+
+              <label class="add-song" for="audio_file">Add a custom song</label>
+              <input id="audio_file" type="file" accept="audio/*" />
+
+              <ul class="added-song none" class="songs">
+                <li class="custom-song-container">
+                  <i class="custom-song start-song fa-solid fa-play"></i>
+                  <span id="song-name"></span>
+                </li>
+              </ul>
+
             </div>
-
-            <button class="add-song">
-              Add your song
-            </button>
-
           </div>
         </div>
       </div>
@@ -157,8 +163,10 @@
   <script src="https://kit.fontawesome.com/876aed742f.js" crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.5.44/Tone.js"></script>
+  <script src="../js/createSongElement.js"></script>
   <script src="../js/rain.js"></script>
-  <script src="../js/main-room.js"></script>
+  <script type="module" src="../js/main-room.js"></script>
+  <script type="module" src="../js/add-song.js"></script>
   <script src="../js/drop-down.js"></script>
   <script src="../js/lateral-menu.js"></script>
 </body>
