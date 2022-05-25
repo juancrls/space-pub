@@ -16,6 +16,20 @@ const rainPlayer = new Tone.Player({
   fadeOut: 1.5,
 }).toDestination();
 
+let differentRains = document.querySelectorAll(".different-rain");
+
+differentRains.forEach(rainBtn => {
+  rainBtn.addEventListener("click", async() => {
+    await rainPlayer.load(`../audios/rain_${rainBtn.id}.mp3`)
+
+    if (isRaining) {
+      rainPlayer.stop();
+      rainPlayer.start();
+    }
+
+  })
+})
+
 const setDrop = (d) => {
   d.style.left = Math.floor(Math.random() * window.innerWidth) + "px";
   d.style.animationDuration = 0.2 + Math.random() * 0.3 + "s";

@@ -181,14 +181,25 @@ input[type='file'] {
   height: 90%;
 }
 
-.custom-song-container {
+li {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 400px
+  width: 375px
 }
 
 .added-song {
   overflow: hidden;
   display: none;
+}
+
+#rain-button {
+  width: 20%;
+}
+
+.different-rain {
+  margin: 5px;
+  padding: 5px;
+  width: 5%;
+  border-radius: 0;
 }

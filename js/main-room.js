@@ -1,4 +1,4 @@
-import { customSongPlayer } from './add-song.js'
+import { file } from './add-song.js'
 
 let reverb = new Tone.Reverb({
   "wet": 1,
@@ -88,94 +88,60 @@ let rAFIsPaused = true;
 
 let currentSong;
 
-export const loadSongs = (buff) => { // that function was made to load the custom song into this playButton foreach
-  playButton.forEach(async(song) => {
+playButton.forEach(async(song) => {
+  song.addEventListener('click', async() => {
+    let mp3 = song.classList.contains('custom-song') ? file : `../audios/music/${song.nextElementSibling.id}.mp3`
 
-    song.addEventListener('click', async() => {
-      if (song.classList[0] == 'custom-song') {
-        if (buff) {
-          console.log('bufado', buff)
-          player = new Tone.Player({
-            "url": buff,
-            "mute": false,
-            "volume": -10,
-            "reverse": false,
-            "fadeOut": 0.5,
-            "playbackRate": document.querySelector('#playback-rate-output').value,
-          }).toDestination()
+    if (player.state == 'stopped') {
+      rAFIsPaused = false;
+      changeWithTime()
+      draw();
 
-          player.start();
-          rAFIsPaused = false;
-          changeWithTime()
-          draw();
+      song.classList.remove('fa-play');
+      song.classList.add('fa-pause');
 
-          song.classList.remove('fa-play');
-          song.classList.add('fa-pause');
+      currentSong = song;
+      mp3 = song.classList.contains('custom-song') ? file : `../audios/music/${song.nextElementSibling.id}.mp3`
 
-        }
-      } else {
+      await player.load(mp3);
 
-        let mp3 = `../audios/music/${song.nextElementSibling.id}.mp3`
+      Tone.start();
+      player.start();
+    } else {
+      if (song == currentSong) { // if the pause event is for the current song
 
-        if (player.state == 'stopped') {
-          rAFIsPaused = false;
-          changeWithTime()
-          draw();
+        rAFIsPaused = true;
 
-          song.classList.remove('fa-play');
-          song.classList.add('fa-pause');
+        player.connect(reverb)
+        player.stop()
+        song.classList.remove('fa-pause');
+        song.classList.add('fa-play');
 
-          currentSong = song;
-          await player.load(mp3);
+        await sleep(1300);
+        player.disconnect(reverb)
+          // @@ talvez esteja inutilizada pela falta do transport
+      } else { // if isn't, will reset the icons and play the requested song
+        currentSong.classList.remove('fa-pause');
+        currentSong.classList.add('fa-play');
 
-          Tone.start();
-          player.start();
+        song.classList.remove('fa-play');
+        song.classList.add('fa-pause');
+        mp3 = song.classList.contains('custom-song') ? file : `../audios/music/${song.nextElementSibling.id}.mp3`
 
-        } else {
-          if (song == currentSong) { // if the pause event is for the current song
-            rAFIsPaused = true;
+        player.stop();
+        player.connect(reverb)
 
-            player.connect(reverb)
-            player.stop()
-            song.classList.remove('fa-pause');
-            song.classList.add('fa-play');
+        await player.load(mp3);
+        player.disconnect(reverb)
+        player.start()
 
-            await sleep(1300);
-            player.disconnect(reverb)
-              // @@ talvez esteja inutilizada pela falta do transport
-          } else { // if isn't, will reset the icons and play the requested song
-
-            currentSong.classList.remove('fa-pause');
-            currentSong.classList.add('fa-play');
-
-            song.classList.remove('fa-play');
-            song.classList.add('fa-pause');
-
-            mp3 = `../audios/music/${song.nextElementSibling.id}.mp3`
-            player.stop();
-            player.connect(reverb)
-
-            await player.load(mp3);
-            player.disconnect(reverb)
-            player.start()
-
-            currentSong = song;
-          }
-        }
+        currentSong = song;
       }
-
-
-    })
+    }
   })
-
-}
-
-loadSongs();
+})
 
 let playbackRateValue = 1;
-let inputDetuneValue = 0; // that var is created to avoid activateDynamicPitch function to overlay the input value
-let detuneValue = 0;
-
 // PLAYBACK RATE
 document.querySelector('#playback-rate-input').addEventListener('input', (e) => {
   playbackRateValue = e.currentTarget.value; // saves playback rate value inside the global var playbackRateValue;
@@ -186,7 +152,7 @@ document.querySelector('#playback-rate-input').addEventListener('input', (e) => 
   changeLightsWithPitch();
 }, false)
 
-// BATHROOM'
+// BATHROOM
 let leftLight = document.getElementById("svg-left-light");
 let rightLight = document.getElementById("svg-right-light");
 let bathroomLight = document.getElementById('bathroom-light');
@@ -231,7 +197,6 @@ bathroomButton.addEventListener('click', () => {
         rightLight.style.display = rightLightDisplay;
         bathroomLight.style.display = bathroomLightDisplay;
       }
-
 
       player.connect(reverb);
     }, 1500);
@@ -405,7 +370,6 @@ const colorChanger = () => {
   }
   delay();
 }
-
 
 const changeLightsWithPitch = () => {
   if (!lights || player.state == "stopped") return;

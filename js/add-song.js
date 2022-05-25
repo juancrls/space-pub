@@ -1,9 +1,8 @@
-import { loadSongs } from './main-room.js'
-
-let buffer, customSongPlayer = "banana";
+let buffer, customSongPlayer;
 let customSongPlayButton = document.querySelector(".custom-song-play-button");
 let customSongStopButton = document.querySelector(".custom-song-stop-button");
 let fileName;
+let file;
 
 let songDiv = document.querySelector(".added-song");
 let songName = document.getElementById("song-name");
@@ -13,7 +12,6 @@ if (customSongPlayButton) {
   customSongPlayButton.onclick = function() {
     customSongPlayer.play();
   };
-
 }
 
 if (customSongStopButton) {
@@ -24,7 +22,7 @@ if (customSongStopButton) {
 
 audio_file.onchange = function() {
   let files = this.files;
-  let file = URL.createObjectURL(files[0]);
+  file = URL.createObjectURL(files[0]);
 
   fileName = files[0].name;
   addSongButton.innerHTML = "Loading...";
@@ -36,16 +34,11 @@ audio_file.onchange = function() {
 };
 
 const loaded = () => {
-  console.log('1', customSongPlayer);
-
   songDiv.classList.remove("none");
   songDiv.classList.add("block");
   songName.innerHTML = fileName;
   addSongButton.innerHTML = "Add a custom song";
-
-  customSongPlayer = new Tone.Player(buffer).toDestination();
-  console.log(fileName)
-  loadSongs(buffer);
+  // customSongPlayer = new Tone.Player(buffer).toDestination();
 };
 
-export { customSongPlayer };
+export { file };
