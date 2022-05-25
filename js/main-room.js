@@ -105,6 +105,12 @@ export const loadSongs = (buff) => { // that function was made to load the custo
           }).toDestination()
 
           player.start();
+          rAFIsPaused = false;
+          changeWithTime()
+          draw();
+
+          song.classList.remove('fa-play');
+          song.classList.add('fa-pause');
 
         }
       } else {
@@ -189,8 +195,6 @@ let leftLightDisplay = 'block';
 let rightLightDisplay = 'block';
 let bathroomLightDisplay = 'none';
 
-let ledLights = document.querySelectorAll('.led-light');
-
 let inBathroom = false;
 let bathroomIsTransitioning = false;
 
@@ -201,9 +205,6 @@ bathroomButton.addEventListener('click', () => {
   bathroomIsTransitioning = true;
 
   if (!inBathroom) {
-    console.log('...entering');
-
-
     bathroomTransition.classList.add('elementToFadeInAndOut');
 
     setTimeout(() => {
@@ -213,7 +214,10 @@ bathroomButton.addEventListener('click', () => {
     setTimeout(() => {
       inBathroom = true;
 
-      getBg();
+      getBg(); // will set dark/whitebg to bathroom draw variations
+
+      currentBackground = darkbg;
+
       if (bgIsWhite) currentBackground = whitebg;
 
       backgroundImage.src = currentBackground;
@@ -239,7 +243,6 @@ bathroomButton.addEventListener('click', () => {
     }, 3000);
 
   } else {
-    console.log('...leaving');
     bathroomTransition.classList.add('elementToFadeInAndOut');
 
     setTimeout(() => {
@@ -365,8 +368,6 @@ const draw = () => {
 
   // if (max > 69) {
   if ((max > avg * 2)) {
-    console.log('beat')
-
     if (!isRunning) colorChanger();
   }
 }
