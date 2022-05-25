@@ -45,16 +45,7 @@ dynamicLightsButton.addEventListener('click', () => {
   }
 })
 
-let darkbg, whitebg, bgIsWhite;
-const getBg = () => {
-  if (inBathroom) {
-    darkbg = "../images/bathroom-night.jpg"
-    whitebg = "../images/bathroom.jpg"
-  } else {
-    darkbg = "../images/cafe-night.png"
-    whitebg = "../images/cafe.png"
-  }
-}
+let bgIsWhite;
 
 let currentBackground = "../images/cafe-night.png";
 
@@ -64,22 +55,21 @@ let changeBackgroundButton = document.querySelector('#changeBackground');
 let menuLateralButton = document.querySelector('.lateral-menu-button');
 
 changeBackgroundButton.addEventListener('click', () => {
-  getBg();
-
-  if (currentBackground == darkbg) {
+  if (currentBackground == "../images/cafe-night.png") {
     lightsOnSound.start();
 
     menuLateralButton.style.filter = "invert(0)";
-    currentBackground = whitebg;
+    currentBackground = "../images/cafe.png";
     changeBackgroundButton.innerHTML = "Dark Background"
-    backgroundImage.src = whitebg;
+    backgroundImage.src = "../images/cafe.png";
     bgIsWhite = true;
   } else {
     lightsOffSound.start();
     menuLateralButton.style.filter = "invert(1)";
-    currentBackground = darkbg;
+    currentBackground = "../images/cafe-night.png";
     changeBackgroundButton.innerHTML = "White Background"
-    backgroundImage.src = darkbg
+    backgroundImage.src = "../images/cafe-night.png"
+    bgIsWhite = false;
   }
 })
 
@@ -180,11 +170,9 @@ bathroomButton.addEventListener('click', () => {
     setTimeout(() => {
       inBathroom = true;
 
-      getBg(); // will set dark/whitebg to bathroom draw variations
+      currentBackground = "../images/bathroom-night.jpg";
 
-      currentBackground = darkbg;
-
-      if (bgIsWhite) currentBackground = whitebg;
+      if (bgIsWhite) currentBackground = "../images/bathroom.jpg";
 
       backgroundImage.src = currentBackground;
 
@@ -216,9 +204,7 @@ bathroomButton.addEventListener('click', () => {
 
     setTimeout(() => {
       inBathroom = false;
-
-      getBg();
-      if (bgIsWhite) currentBackground = whitebg;
+      if (bgIsWhite) currentBackground = "../images/cafe.jpg";
 
       backgroundImage.src = currentBackground
 
