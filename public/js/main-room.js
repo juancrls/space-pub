@@ -53,22 +53,25 @@ let backgroundImage = document.querySelector('#backgroundImage');
 let changeBackgroundButton = document.querySelector('#changeBackground');
 
 let menuLateralButton = document.querySelector('.lateral-menu-button');
+let whitebg = "../images/cafe.png";
+let darkbg = "../images/cafe-night.png";
 
 changeBackgroundButton.addEventListener('click', () => {
-  if (currentBackground == "../images/cafe-night.png") {
+
+  if (currentBackground == darkbg) {
     lightsOnSound.start();
 
     menuLateralButton.style.filter = "invert(0)";
-    currentBackground = "../images/cafe.png";
+    currentBackground = whitebg;
     changeBackgroundButton.innerHTML = "Dark Background"
-    backgroundImage.src = "../images/cafe.png";
+    backgroundImage.src = currentBackground;
     bgIsWhite = true;
   } else {
     lightsOffSound.start();
     menuLateralButton.style.filter = "invert(1)";
-    currentBackground = "../images/cafe-night.png";
+    currentBackground = darkbg;
     changeBackgroundButton.innerHTML = "White Background"
-    backgroundImage.src = "../images/cafe-night.png"
+    backgroundImage.src = darkbg
     bgIsWhite = false;
   }
 })
@@ -156,6 +159,7 @@ let bathroomIsTransitioning = false;
 
 let bathroomTransition = document.getElementById('bathroom-transition');
 let bathroomButton = document.getElementById('bathroom-door');
+
 bathroomButton.addEventListener('click', () => {
   if (bathroomIsTransitioning) return;
   bathroomIsTransitioning = true;
@@ -170,9 +174,12 @@ bathroomButton.addEventListener('click', () => {
     setTimeout(() => {
       inBathroom = true;
 
-      currentBackground = "../images/bathroom-night.jpg";
+      whitebg = "../images/bathroom.jpg";
+      darkbg = "../images/bathroom-night.jpg";
 
-      if (bgIsWhite) currentBackground = "../images/bathroom.jpg";
+      currentBackground = darkbg
+
+      if (bgIsWhite) currentBackground = whitebg;
 
       backgroundImage.src = currentBackground;
 
@@ -204,9 +211,17 @@ bathroomButton.addEventListener('click', () => {
 
     setTimeout(() => {
       inBathroom = false;
-      if (bgIsWhite) currentBackground = "../images/cafe.jpg";
+      darkbg = "../images/cafe-night.png"
+      whitebg = "../images/cafe.png"
 
-      backgroundImage.src = currentBackground
+      if (bgIsWhite) {
+        backgroundImage.src = whitebg;
+        currentBackground = whitebg;
+      } else {
+        currentBackground = darkbg;
+        backgroundImage.src = darkbg;
+      }
+
 
       if (lights) {
         bathroomLightDisplay = 'none';
