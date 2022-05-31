@@ -1,8 +1,12 @@
+main {
+  width: 100vw;
+  height: 100vh;
+}
+
 .slider {
   -webkit-appearance: none;
   appearance: none;
   height: 4px;
-  background: white;
   outline: none;
   -webkit-transition: .2s;
   transition: opacity .2s;
@@ -34,21 +38,17 @@
   background: rgb(0, 0, 0);
 }
 
-.bg-transition {
-  transition: 0.5s ease-in-out;
-}
-
 button,
 label {
   border-top-left-radius: 8px;
   background: #0c0d15;
   color: #F3F3F3;
-  border: 2px solid;
+  border: 2px solid white;
   font: inherit;
   line-height: 1;
   margin: 0.5em;
   padding: 0.5em 1em;
-  width: 35%;
+  width: 10rem;
   transition: 0.3s;
   transform: translateY(0.05em);
 }
@@ -70,13 +70,14 @@ label:focus {
 }
 
 .interaction-menu-container {
-  width: 39rem;
+  width: 70%;
   height: 100%;
   left: -39rem;
   transition: 2s;
   padding: 3% 0;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .interaction-menu-container.active {
@@ -134,6 +135,7 @@ h1 {
 }
 
 .songs-container {
+  width: 100%;
   font-weight: 700;
   font-size: 1.3rem;
   text-shadow: 1px 0px #000000;
@@ -194,12 +196,12 @@ li {
 }
 
 #rain-button {
-  width: 20%;
+  width: 10rem;
 }
 
 .different-rain {
   margin: 5px;
   padding: 5px;
-  width: 5%;
+  width: 2rem;
   border-radius: 0;
 }
