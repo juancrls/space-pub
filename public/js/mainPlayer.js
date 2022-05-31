@@ -1,9 +1,3 @@
-Tone.start();
-
-if (Tone.context.state !== 'running') {
-  Tone.context.resume();
-}
-
 let player = new Tone.Player({
   "mute": false,
   "volume": -10,

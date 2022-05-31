@@ -39,9 +39,10 @@ const enterBathroom = (firstVisit = false) => {
     }, 500);
   } else {
 
-    setTimeout(() => {
-      soundEnteringPub.start();
-    }, 1000);
+    // setTimeout(() => {
+    //   soundEnteringPub.start(); @@ needs to implement a button to create a user 
+    // interaction and start the audiocontext
+    // }, 1000);
   }
 
 
