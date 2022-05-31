@@ -7,6 +7,7 @@ import {
   doorClosingSound,
   lightsOnSound,
   lightsOffSound,
+  soundEnteringPub,
 } from "./soundEffects.js";
 
 import {
@@ -67,6 +68,7 @@ export {
   // sound effects
   doorOpeningSound,
   doorClosingSound,
+  soundEnteringPub,
   lightsOnSound,
   lightsOffSound,
   // color changer
