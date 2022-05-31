@@ -70,9 +70,9 @@ label:focus {
 }
 
 .interaction-menu-container {
-  width: 70%;
+  width: 50%;
   height: 100%;
-  left: -70%;
+  left: -50%;
   transition: 2s;
   padding: 3% 0;
   display: flex;
@@ -132,6 +132,9 @@ h1 {
 .songs {
   height: 6rem;
   overflow-y: scroll;
+  text-shadow: 0.5px 0.5px #FFFFFF;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .songs-container {
@@ -142,7 +145,8 @@ h1 {
 }
 
 .add-song {
-  width: 60%;
+  font-size: 1.3rem;
+  width: 15rem;
   border: 1px solid white;
 }
 
@@ -157,7 +161,8 @@ input[type='file'] {
   z-index: 99;
   right: -130px;
   width: 10rem;
-  height: 10rem;
+  height: 5%;
+  margin-bottom: 3rem;
   display: flex;
   align-items: center;
 }
