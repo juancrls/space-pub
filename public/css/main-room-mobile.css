@@ -1,3 +1,45 @@
+@media only screen and (min-width: 320px) {
+  #svg-left-light {
+    left: -4.5rem;
+    top: -2.5rem;
+  }
+}
+
+@media only screen and (min-width: 375px) {
+  #svg-left-light {
+    left: -3.8rem;
+    top: -1.8rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  #svg-left-light {
+    left: -1.6rem;
+    top: -0.4rem;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  #svg-left-light {
+    left: -2.2rem;
+    top: -0.4rem;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  #svg-left-light {
+    left: -0.8rem;
+    top: 0.5rem;
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+  #svg-left-light {
+    left: -2.3rem;
+    top: 0.5rem;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .interaction-menu-container {
     padding: 0;

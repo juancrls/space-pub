@@ -20,8 +20,6 @@ import {
   setCurrentBg,
 } from "./globalVariables.js";
 
-
-
 let bathroomLight = document.getElementById("bathroom-light");
 let bathroomLightDisplay = "none";
 let inBathroom = false;
@@ -40,6 +38,7 @@ const enterBathroom = (firstVisit = false) => {
       doorOpeningSound.start();
     }, 500);
   } else {
+
     setTimeout(() => {
       soundEnteringPub.start();
     }, 1000);
